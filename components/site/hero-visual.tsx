@@ -3,19 +3,26 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { ScanLine, ScanFace, Nfc, ShieldCheck, Check } from 'lucide-react'
-
-const stages = [
-  { id: 'scan', label: 'Scanning document', icon: ScanLine },
-  { id: 'face', label: 'Matching face', icon: ScanFace },
-  { id: 'nfc', label: 'Reading NFC chip', icon: Nfc },
-  { id: 'done', label: 'Identity verified', icon: ShieldCheck },
-] as const
-
-const checklist = ['Document authentic', 'Face match 99.2%', 'Liveness passed', 'NFC chip valid']
+import { useT } from '@/lib/i18n'
 
 export function HeroVisual() {
   const reduce = useReducedMotion()
+  const t = useT()
   const [stage, setStage] = useState(0)
+
+  const stages = [
+    { id: 'scan', label: t({ tr: 'Belge taranıyor', en: 'Scanning document' }), icon: ScanLine },
+    { id: 'face', label: t({ tr: 'Yüz eşleştiriliyor', en: 'Matching face' }), icon: ScanFace },
+    { id: 'nfc', label: t({ tr: 'NFC çipi okunuyor', en: 'Reading NFC chip' }), icon: Nfc },
+    { id: 'done', label: t({ tr: 'Kimlik doğrulandı', en: 'Identity verified' }), icon: ShieldCheck },
+  ] as const
+
+  const checklist = [
+    t({ tr: 'Belge orijinal', en: 'Document authentic' }),
+    t({ tr: 'Yüz eşleşmesi %99,2', en: 'Face match 99.2%' }),
+    t({ tr: 'Canlılık başarılı', en: 'Liveness passed' }),
+    t({ tr: 'NFC çipi geçerli', en: 'NFC chip valid' }),
+  ]
 
   useEffect(() => {
     if (reduce) {
@@ -49,7 +56,7 @@ export function HeroVisual() {
             <span>SmartID</span>
             <span className="flex items-center gap-1">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-              Secure session
+              {t({ tr: 'Güvenli oturum', en: 'Secure session' })}
             </span>
           </div>
 
@@ -124,7 +131,9 @@ export function HeroVisual() {
         transition={{ duration: 0.8, delay: 0.4 }}
         className="absolute -right-4 bottom-8 w-52 rounded-2xl border border-border bg-background/95 p-4 shadow-xl backdrop-blur sm:-right-10"
       >
-        <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Checks</p>
+        <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+          {t({ tr: 'Kontroller', en: 'Checks' })}
+        </p>
         <ul className="space-y-2">
           {checklist.map((item, i) => (
             <motion.li
@@ -153,7 +162,9 @@ export function HeroVisual() {
         <span className="flex h-7 w-7 items-center justify-center rounded-full bg-accent text-brand-ink">
           <ShieldCheck className="h-4 w-4" />
         </span>
-        <span className="text-xs font-semibold text-foreground">Approved · 4.2s</span>
+        <span className="text-xs font-semibold text-foreground">
+          {t({ tr: 'Onaylandı · 4,2sn', en: 'Approved · 4.2s' })}
+        </span>
       </motion.div>
     </div>
   )
