@@ -5,12 +5,10 @@ import Image from 'next/image'
 import { motion, useReducedMotion } from 'motion/react'
 import { ArrowUpRight } from 'lucide-react'
 import { type Article, categoryLabel, icons } from '@/lib/blog-data'
-import { useT } from '@/lib/i18n'
 import { ArticleMeta, CategoryPill } from './article-meta'
 
 export function BlogCard({ article, index = 0 }: { article: Article; index?: number }) {
   const reduce = useReducedMotion()
-  const t = useT()
   const Icon = icons[article.icon]
 
   return (
@@ -21,7 +19,7 @@ export function BlogCard({ article, index = 0 }: { article: Article; index?: num
       transition={{ duration: 0.55, delay: Math.min(index * 0.06, 0.3), ease: [0.22, 1, 0.36, 1] }}
       className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-brand/30 hover:shadow-xl hover:shadow-brand/10"
     >
-      <Link href={`/blog/${article.slug}`} className="flex h-full flex-col" aria-label={t(article.title)}>
+      <Link href={`/blog/${article.slug}`} className="flex h-full flex-col" aria-label={article.title}>
         <div className="relative aspect-[16/10] overflow-hidden">
           <Image
             src={article.cover || '/placeholder.svg'}
@@ -41,10 +39,10 @@ export function BlogCard({ article, index = 0 }: { article: Article; index?: num
 
         <div className="flex flex-1 flex-col p-5">
           <h3 className="font-display text-lg font-bold leading-snug text-foreground text-balance transition-colors group-hover:text-brand">
-            {t(article.title)}
+            {article.title}
           </h3>
           <p className="mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-muted-foreground">
-            {t(article.excerpt)}
+            {article.excerpt}
           </p>
           <div className="mt-5 flex items-center justify-between border-t border-border pt-4">
             <ArticleMeta

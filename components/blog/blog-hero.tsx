@@ -5,12 +5,10 @@ import Image from 'next/image'
 import { motion, useReducedMotion } from 'motion/react'
 import { ArrowRight, Sparkles } from 'lucide-react'
 import { type Article, categoryLabel } from '@/lib/blog-data'
-import { useT } from '@/lib/i18n'
 import { ArticleMeta, CategoryPill } from './article-meta'
 
 export function BlogHero({ article }: { article: Article }) {
   const reduce = useReducedMotion()
-  const t = useT()
 
   return (
     <section className="relative overflow-hidden pt-28 pb-10 sm:pt-32 lg:pt-36">
@@ -40,16 +38,14 @@ export function BlogHero({ article }: { article: Article }) {
         >
           <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background/60 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-brand backdrop-blur-sm">
             <Sparkles className="h-3.5 w-3.5" />
-            {t({ tr: 'Smartvist Günlüğü', en: 'Smartvist Journal' })}
+            Smartvist Journal
           </span>
           <h1 className="mt-5 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-foreground text-balance sm:text-5xl">
-            {t({ tr: 'Dijital güvenin geleceği üzerine fikirler', en: 'Ideas on the future of digital trust' })}
+            Ideas on the future of digital trust
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-            {t({
-              tr: 'Kimlik doğrulama, yapay zeka, biyometri ve uyum üzerine derinlemesine yazılar — yeni nesil müşteri kazanımını geliştiren ekipten.',
-              en: 'Deep dives on identity verification, AI, biometrics and compliance — from the team building next-generation onboarding.',
-            })}
+            Deep dives on identity verification, AI, biometrics and compliance — from the team building
+            next-generation onboarding.
           </p>
         </motion.div>
 
@@ -63,7 +59,7 @@ export function BlogHero({ article }: { article: Article }) {
           <Link
             href={`/blog/${article.slug}`}
             className="grid items-stretch lg:grid-cols-2"
-            aria-label={t(article.title)}
+            aria-label={article.title}
           >
             <div className="relative min-h-[240px] overflow-hidden lg:min-h-[420px]">
               <Image
@@ -77,15 +73,15 @@ export function BlogHero({ article }: { article: Article }) {
               <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/50 via-brand-ink/10 to-transparent lg:bg-gradient-to-r" />
               <div className="absolute left-5 top-5 flex items-center gap-2">
                 <CategoryPill label={categoryLabel(article.category)} tone="inverted" />
-                <CategoryPill label={t({ tr: 'Öne çıkan', en: 'Featured' })} tone="ember" />
+                <CategoryPill label="Featured" tone="ember" />
               </div>
             </div>
 
             <div className="flex flex-col justify-center gap-5 p-6 sm:p-9">
               <h2 className="font-display text-2xl font-bold leading-tight text-foreground text-balance transition-colors group-hover:text-brand sm:text-3xl">
-                {t(article.title)}
+                {article.title}
               </h2>
-              <p className="text-pretty leading-relaxed text-muted-foreground">{t(article.excerpt)}</p>
+              <p className="text-pretty leading-relaxed text-muted-foreground">{article.excerpt}</p>
               <ArticleMeta
                 author={article.author}
                 date={article.date}
@@ -93,7 +89,7 @@ export function BlogHero({ article }: { article: Article }) {
                 size="lg"
               />
               <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand">
-                {t({ tr: 'Yazıyı oku', en: 'Read the story' })}
+                Read the story
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </span>
             </div>

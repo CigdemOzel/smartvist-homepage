@@ -1,12 +1,8 @@
-'use client'
-
 import { getRelated } from '@/lib/blog-data'
-import { useT } from '@/lib/i18n'
 import { BlogCard } from './blog-card'
 import { Reveal } from '@/components/site/reveal'
 
 export function RelatedArticles({ slug }: { slug: string }) {
-  const t = useT()
   const related = getRelated(slug, 3)
   if (related.length === 0) return null
 
@@ -16,11 +12,9 @@ export function RelatedArticles({ slug }: { slug: string }) {
         <Reveal>
           <div className="mb-10 flex items-end justify-between gap-4">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-widest text-brand">
-                {t({ tr: 'Okumaya devam et', en: 'Keep reading' })}
-              </p>
+              <p className="text-sm font-semibold uppercase tracking-widest text-brand">Keep reading</p>
               <h2 className="mt-2 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-                {t({ tr: 'İlgili yazılar', en: 'Related articles' })}
+                Related articles
               </h2>
             </div>
           </div>

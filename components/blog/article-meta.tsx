@@ -1,8 +1,5 @@
-'use client'
-
 import { Clock } from 'lucide-react'
 import { type Author, formatDate } from '@/lib/blog-data'
-import { useLocale, useT, type Localized } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
 
 export function AuthorAvatar({
@@ -50,8 +47,6 @@ export function ArticleMeta({
 }) {
   const muted = tone === 'inverted' ? 'text-white/70' : 'text-muted-foreground'
   const strong = tone === 'inverted' ? 'text-white' : 'text-foreground'
-  const { locale } = useLocale()
-  const t = useT()
 
   return (
     <div className={cn('flex items-center gap-3', className)}>
@@ -59,11 +54,11 @@ export function ArticleMeta({
       <div className="min-w-0">
         <p className={cn('truncate text-sm font-semibold', strong)}>{author.name}</p>
         <p className={cn('flex items-center gap-2 text-xs', muted)}>
-          <span className="truncate">{formatDate(date, locale)}</span>
+          <span className="truncate">{formatDate(date)}</span>
           <span aria-hidden="true">·</span>
           <span className="inline-flex items-center gap-1">
             <Clock className="h-3 w-3" />
-            {readingMinutes} {t({ tr: 'dk okuma', en: 'min read' })}
+            {readingMinutes} min read
           </span>
         </p>
       </div>
@@ -76,11 +71,10 @@ export function CategoryPill({
   tone = 'default',
   className,
 }: {
-  label: Localized | string
+  label: string
   tone?: 'default' | 'inverted' | 'ember'
   className?: string
 }) {
-  const t = useT()
   const styles =
     tone === 'inverted'
       ? 'bg-white/15 text-white ring-white/25'
@@ -95,7 +89,7 @@ export function CategoryPill({
         className,
       )}
     >
-      {typeof label === 'string' ? label : t(label)}
+      {label}
     </span>
   )
 }

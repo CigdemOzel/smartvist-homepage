@@ -11,7 +11,6 @@ import { ArticleMeta, CategoryPill } from '@/components/blog/article-meta'
 import { RelatedArticles } from '@/components/blog/related-articles'
 import { ReadingProgress } from '@/components/blog/reading-progress'
 import { articles, getArticle, categoryLabel } from '@/lib/blog-data'
-import { LocalizedText } from '@/lib/i18n'
 
 export function generateStaticParams() {
   return articles.map((a) => ({ slug: a.slug }))
@@ -27,11 +26,11 @@ export async function generateMetadata({
   if (!article) return { title: 'Article not found — Smartvist' }
 
   return {
-    title: `${article.title.en} — Smartvist Blog`,
-    description: article.excerpt.en,
+    title: `${article.title} — Smartvist Blog`,
+    description: article.excerpt,
     openGraph: {
-      title: article.title.en,
-      description: article.excerpt.en,
+      title: article.title,
+      description: article.excerpt,
       type: 'article',
       images: [{ url: article.cover }],
     },
@@ -61,7 +60,7 @@ export default async function ArticlePage({
               className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-brand"
             >
               <ArrowLeft className="h-4 w-4" />
-              <LocalizedText value={{ tr: 'Tüm yazılar', en: 'All articles' }} />
+              All articles
             </Link>
           </Reveal>
 
@@ -73,13 +72,13 @@ export default async function ArticlePage({
 
           <Reveal delay={0.1}>
             <h1 className="mt-4 font-display text-4xl font-bold leading-[1.1] tracking-tight text-foreground text-balance sm:text-5xl">
-              <LocalizedText value={article.title} />
+              {article.title}
             </h1>
           </Reveal>
 
           <Reveal delay={0.15}>
             <p className="mt-5 text-pretty text-lg leading-relaxed text-muted-foreground">
-              <LocalizedText value={article.excerpt} />
+              {article.excerpt}
             </p>
           </Reveal>
 
@@ -111,7 +110,7 @@ export default async function ArticlePage({
             <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-border bg-muted shadow-xl shadow-brand/5 sm:rounded-3xl">
               <Image
                 src={article.cover || '/placeholder.svg'}
-                alt={article.title.en}
+                alt={article.title}
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 1024px"
@@ -139,7 +138,7 @@ export default async function ArticlePage({
                 href="/#contact"
                 className="inline-flex shrink-0 items-center justify-center rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-brand-foreground transition-colors hover:opacity-90"
               >
-                <LocalizedText value={{ tr: 'Ekibimizle konuşun', en: 'Talk to our team' }} />
+                Talk to our team
               </Link>
             </div>
           </Reveal>
