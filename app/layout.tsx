@@ -16,6 +16,7 @@ const manrope = Manrope({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://smartvist.com'),
   title: 'Smartvist — AI-Powered Identity Verification & Digital Onboarding',
   description:
     'Smartvist builds trust between institutions and their customers with AI-powered identity verification, remote onboarding and KYC automation. Meet the SmartID platform: SDK, Studio and Agent.',
