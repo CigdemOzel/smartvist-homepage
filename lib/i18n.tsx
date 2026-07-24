@@ -86,3 +86,13 @@ export function useT() {
     [locale],
   )
 }
+
+/**
+ * Renders a Localized string in the current language.
+ * Useful inside Server Components (like blog pages) that hold Localized
+ * data but need a Client boundary to react to language changes.
+ */
+export function LocalizedText({ value }: { value: Localized }) {
+  const { locale } = useLocale()
+  return <>{value[locale]}</>
+}

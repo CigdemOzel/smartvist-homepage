@@ -1,5 +1,8 @@
+'use client'
+
 import { Quote } from 'lucide-react'
 import { type ContentBlock, icons } from '@/lib/blog-data'
+import { useT } from '@/lib/i18n'
 import { Reveal } from '@/components/site/reveal'
 
 export function ArticleContent({ blocks }: { blocks: ContentBlock[] }) {
@@ -15,28 +18,29 @@ export function ArticleContent({ blocks }: { blocks: ContentBlock[] }) {
 }
 
 function Block({ block }: { block: ContentBlock }) {
+  const t = useT()
   switch (block.type) {
     case 'lead':
       return (
         <p className="text-pretty text-xl font-medium leading-relaxed text-foreground sm:text-2xl">
-          {block.text}
+          {t(block.text)}
         </p>
       )
 
     case 'heading':
       return (
         <h2 className="mt-4 font-display text-2xl font-bold tracking-tight text-foreground text-balance sm:text-3xl">
-          {block.text}
+          {t(block.text)}
         </h2>
       )
 
     case 'paragraph':
-      return <p className="text-pretty text-[1.05rem] leading-[1.8] text-muted-foreground">{block.text}</p>
+      return <p className="text-pretty text-[1.05rem] leading-[1.8] text-muted-foreground">{t(block.text)}</p>
 
     case 'list':
       return (
         <ul className="flex flex-col gap-3">
-          {block.items.map((item, i) => (
+          {t(block.items).map((item, i) => (
             <li key={i} className="flex gap-3 text-[1.02rem] leading-relaxed text-muted-foreground">
               <span
                 className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand"
@@ -57,8 +61,8 @@ function Block({ block }: { block: ContentBlock }) {
               <Icon className="h-5 w-5" />
             </span>
             <div>
-              <h3 className="font-display text-base font-bold text-brand-ink">{block.title}</h3>
-              <p className="mt-1.5 text-[1rem] leading-relaxed text-foreground/80">{block.text}</p>
+              <h3 className="font-display text-base font-bold text-brand-ink">{t(block.title)}</h3>
+              <p className="mt-1.5 text-[1rem] leading-relaxed text-foreground/80">{t(block.text)}</p>
             </div>
           </div>
         </div>
@@ -70,10 +74,10 @@ function Block({ block }: { block: ContentBlock }) {
         <blockquote className="relative my-2 rounded-2xl border-l-4 border-brand bg-muted/40 py-6 pl-12 pr-6">
           <Quote className="absolute left-4 top-5 h-6 w-6 text-brand/40" aria-hidden="true" />
           <p className="text-pretty font-display text-xl font-semibold leading-snug text-foreground">
-            {block.text}
+            {t(block.text)}
           </p>
           <cite className="mt-3 block text-sm font-medium not-italic text-muted-foreground">
-            — {block.cite}
+            — {t(block.cite)}
           </cite>
         </blockquote>
       )
@@ -84,7 +88,7 @@ function Block({ block }: { block: ContentBlock }) {
           {block.items.map((s, i) => (
             <div key={i} className="text-center sm:text-left">
               <p className="font-display text-3xl font-extrabold tracking-tight text-brand">{s.value}</p>
-              <p className="mt-1 text-sm text-muted-foreground">{s.label}</p>
+              <p className="mt-1 text-sm text-muted-foreground">{t(s.label)}</p>
             </div>
           ))}
         </div>
@@ -95,7 +99,7 @@ function Block({ block }: { block: ContentBlock }) {
         <div className="rounded-2xl border border-border bg-card p-6">
           {block.title && (
             <h3 className="mb-5 font-display text-sm font-bold uppercase tracking-widest text-muted-foreground">
-              {block.title}
+              {t(block.title)}
             </h3>
           )}
           <ol className="relative flex flex-col gap-6 border-l border-border pl-8">
@@ -104,8 +108,8 @@ function Block({ block }: { block: ContentBlock }) {
                 <span className="absolute -left-[41px] flex h-6 w-6 items-center justify-center rounded-full bg-brand font-display text-xs font-bold text-brand-foreground ring-4 ring-card">
                   {i + 1}
                 </span>
-                <h4 className="font-display text-base font-bold text-foreground">{step.title}</h4>
-                <p className="mt-1 text-[1rem] leading-relaxed text-muted-foreground">{step.text}</p>
+                <h4 className="font-display text-base font-bold text-foreground">{t(step.title)}</h4>
+                <p className="mt-1 text-[1rem] leading-relaxed text-muted-foreground">{t(step.text)}</p>
               </li>
             ))}
           </ol>

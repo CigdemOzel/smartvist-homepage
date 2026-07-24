@@ -66,7 +66,7 @@ export function Navbar() {
             : 'border-transparent bg-transparent',
         )}
       >
-        <Link href="/" className="shrink-0" aria-label="Smartvist home">
+        <Link href="/" className="shrink-0" aria-label={t({ tr: 'Smartvist ana sayfa', en: 'Smartvist home' })}>
           <Logo />
         </Link>
 
