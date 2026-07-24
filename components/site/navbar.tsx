@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { AnimatePresence, motion } from 'motion/react'
 import { Menu, X, ArrowRight } from 'lucide-react'
 import { Logo } from './logo'
@@ -10,6 +12,7 @@ import { cn } from '@/lib/utils'
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const pathname = usePathname()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16)
@@ -31,36 +34,44 @@ export function Navbar() {
             : 'border-transparent bg-transparent',
         )}
       >
-        <a href="#top" className="shrink-0" aria-label="Smartvist home">
+        <Link href="/" className="shrink-0" aria-label="Smartvist home">
           <Logo />
-        </a>
+        </Link>
 
         <div className="hidden items-center gap-1 lg:flex">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) => {
+            const active = link.href.startsWith('/blog') && pathname.startsWith('/blog')
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={cn(
+                  'rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                  active
+                    ? 'bg-brand-soft text-brand'
+                    : 'text-muted-foreground hover:bg-muted hover:text-foreground',
+                )}
+              >
+                {link.label}
+              </Link>
+            )
+          })}
         </div>
 
         <div className="flex items-center gap-2">
-          <a
-            href="#contact"
+          <Link
+            href="/#contact"
             className="hidden rounded-lg px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted sm:inline-flex"
           >
             Talk to sales
-          </a>
-          <a
-            href="#contact"
+          </Link>
+          <Link
+            href="/#contact"
             className="group hidden items-center gap-1.5 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-brand-foreground shadow-sm transition-all hover:shadow-md hover:shadow-brand/20 sm:inline-flex"
           >
             Book a demo
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-          </a>
+          </Link>
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
@@ -84,23 +95,23 @@ export function Navbar() {
           >
             <div className="flex flex-col">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.href}
                   href={link.href}
                   onClick={() => setOpen(false)}
                   className="rounded-lg px-3 py-3 text-sm font-medium text-foreground transition-colors hover:bg-muted"
                 >
                   {link.label}
-                </a>
+                </Link>
               ))}
-              <a
-                href="#contact"
+              <Link
+                href="/#contact"
                 onClick={() => setOpen(false)}
                 className="mt-1 inline-flex items-center justify-center gap-1.5 rounded-lg bg-brand px-4 py-3 text-sm font-semibold text-brand-foreground"
               >
                 Book a demo
                 <ArrowRight className="h-4 w-4" />
-              </a>
+              </Link>
             </div>
           </motion.div>
         )}

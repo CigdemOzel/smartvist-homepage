@@ -20,11 +20,11 @@ import {
 export type NavLink = { label: string; href: string }
 
 export const navLinks: NavLink[] = [
-  { label: 'Platform', href: '#ecosystem' },
-  { label: 'How it works', href: '#journey' },
-  { label: 'Products', href: '#products' },
-  { label: 'Technology', href: '#technology' },
-  { label: 'Industries', href: '#industries' },
+  { label: 'Platform', href: '/#ecosystem' },
+  { label: 'How it works', href: '/#journey' },
+  { label: 'Products', href: '/#products' },
+  { label: 'Technology', href: '/#technology' },
+  { label: 'Blog', href: '/blog' },
 ]
 
 export type JourneyStep = {
