@@ -4,15 +4,47 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { AnimatePresence, motion } from 'motion/react'
-import { Menu, X, ArrowRight } from 'lucide-react'
+import { Menu, X, ArrowRight, Globe } from 'lucide-react'
 import { Logo } from './logo'
 import { navLinks } from '@/lib/site-data'
+import { useLocale, useT } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
+
+function LanguageToggle({ className }: { className?: string }) {
+  const { locale, setLocale } = useLocale()
+  return (
+    <div
+      className={cn(
+        'inline-flex items-center rounded-lg border border-border bg-background/60 p-0.5 text-xs font-semibold',
+        className,
+      )}
+      role="group"
+      aria-label="Dil / Language"
+    >
+      <Globe className="ml-1.5 mr-0.5 h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" />
+      {(['tr', 'en'] as const).map((code) => (
+        <button
+          key={code}
+          type="button"
+          onClick={() => setLocale(code)}
+          aria-pressed={locale === code}
+          className={cn(
+            'rounded-md px-2 py-1 uppercase transition-colors',
+            locale === code ? 'bg-brand text-brand-foreground' : 'text-muted-foreground hover:text-foreground',
+          )}
+        >
+          {code}
+        </button>
+      ))}
+    </div>
+  )
+}
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
+  const t = useT()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16)
@@ -52,24 +84,25 @@ export function Navbar() {
                     : 'text-muted-foreground hover:bg-muted hover:text-foreground',
                 )}
               >
-                {link.label}
+                {t(link.label)}
               </Link>
             )
           })}
         </div>
 
         <div className="flex items-center gap-2">
+          <LanguageToggle className="hidden sm:inline-flex" />
           <Link
             href="/#contact"
-            className="hidden rounded-lg px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted sm:inline-flex"
+            className="hidden rounded-lg px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted lg:inline-flex"
           >
-            Talk to sales
+            {t({ tr: 'Satışla görüşün', en: 'Talk to sales' })}
           </Link>
           <Link
             href="/#contact"
             className="group hidden items-center gap-1.5 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-brand-foreground shadow-sm transition-all hover:shadow-md hover:shadow-brand/20 sm:inline-flex"
           >
-            Book a demo
+            {t({ tr: 'Demo planla', en: 'Book a demo' })}
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </Link>
           <button
@@ -101,15 +134,21 @@ export function Navbar() {
                   onClick={() => setOpen(false)}
                   className="rounded-lg px-3 py-3 text-sm font-medium text-foreground transition-colors hover:bg-muted"
                 >
-                  {link.label}
+                  {t(link.label)}
                 </Link>
               ))}
+              <div className="mt-2 flex items-center justify-between px-3">
+                <span className="text-xs font-medium text-muted-foreground">
+                  {t({ tr: 'Dil', en: 'Language' })}
+                </span>
+                <LanguageToggle />
+              </div>
               <Link
                 href="/#contact"
                 onClick={() => setOpen(false)}
-                className="mt-1 inline-flex items-center justify-center gap-1.5 rounded-lg bg-brand px-4 py-3 text-sm font-semibold text-brand-foreground"
+                className="mt-2 inline-flex items-center justify-center gap-1.5 rounded-lg bg-brand px-4 py-3 text-sm font-semibold text-brand-foreground"
               >
-                Book a demo
+                {t({ tr: 'Demo planla', en: 'Book a demo' })}
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>

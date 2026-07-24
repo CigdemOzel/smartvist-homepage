@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { Check, ArrowRight } from 'lucide-react'
 import { products } from '@/lib/site-data'
+import { useT } from '@/lib/i18n'
 import { Reveal } from './reveal'
 import { SdkScreen, StudioScreen, AgentScreen } from './product-screens'
 
@@ -15,6 +16,7 @@ const screens = {
 
 export function Products() {
   const reduce = useReducedMotion()
+  const t = useT()
   const [active, setActive] = useState(0)
   const product = products[active]
   const Screen = screens[product.surface]
@@ -23,13 +25,17 @@ export function Products() {
     <section id="products" className="relative py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-4">
         <Reveal className="mx-auto max-w-2xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-widest text-brand">Products</p>
+          <p className="text-sm font-semibold uppercase tracking-widest text-brand">
+            {t({ tr: 'Ürünler', en: 'Products' })}
+          </p>
           <h2 className="mt-3 font-display text-3xl font-extrabold tracking-tight text-balance sm:text-4xl">
-            Three products, one verified outcome
+            {t({ tr: 'Üç ürün, tek doğrulanmış sonuç', en: 'Three products, one verified outcome' })}
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-muted-foreground text-pretty">
-            Embed verification in your app, run operations from a single console, or let an AI avatar guide customers
-            through it — mix and match to fit your flow.
+            {t({
+              tr: 'Doğrulamayı uygulamanıza gömün, operasyonları tek bir konsoldan yönetin ya da bir AI avatarın müşterilere rehberlik etmesine izin verin — akışınıza uyacak şekilde birleştirin.',
+              en: 'Embed verification in your app, run operations from a single console, or let an AI avatar guide customers through it — mix and match to fit your flow.',
+            })}
           </p>
         </Reveal>
 
@@ -66,12 +72,12 @@ export function Products() {
               transition={{ duration: 0.35 }}
             >
               <p className="text-sm font-semibold text-accent-foreground">
-                <span className="rounded-full bg-ember-soft px-2.5 py-1 text-accent">{product.tagline}</span>
+                <span className="rounded-full bg-ember-soft px-2.5 py-1 text-accent">{t(product.tagline)}</span>
               </p>
               <h3 className="mt-4 font-display text-2xl font-extrabold text-foreground sm:text-3xl">{product.name}</h3>
-              <p className="mt-3 text-base leading-relaxed text-muted-foreground">{product.description}</p>
+              <p className="mt-3 text-base leading-relaxed text-muted-foreground">{t(product.description)}</p>
               <ul className="mt-6 space-y-3">
-                {product.bullets.map((b) => (
+                {t(product.bullets).map((b) => (
                   <li key={b} className="flex items-start gap-3 text-sm font-medium text-foreground">
                     <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand/12 text-brand">
                       <Check className="h-3 w-3" />
@@ -84,7 +90,7 @@ export function Products() {
                 href="#contact"
                 className="group mt-8 inline-flex items-center gap-2 text-sm font-semibold text-brand"
               >
-                Explore {product.name}
+                {t({ tr: `${product.name}'ı keşfedin`, en: `Explore ${product.name}` })}
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </a>
             </motion.div>

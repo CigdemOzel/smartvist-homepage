@@ -4,10 +4,12 @@ import { useState } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
 import { Check } from 'lucide-react'
 import { journeySteps } from '@/lib/site-data'
+import { useT } from '@/lib/i18n'
 import { Reveal } from './reveal'
 
 export function Journey() {
   const reduce = useReducedMotion()
+  const t = useT()
   const [active, setActive] = useState(0)
   const ActiveIcon = journeySteps[active].icon
   const progress = (active / (journeySteps.length - 1)) * 100
@@ -17,12 +19,17 @@ export function Journey() {
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 grid-lines opacity-[0.08]" />
       <div className="relative mx-auto max-w-6xl px-4">
         <Reveal className="mx-auto max-w-2xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-widest text-accent">The verification journey</p>
+          <p className="text-sm font-semibold uppercase tracking-widest text-accent">
+            {t({ tr: 'Doğrulama yolculuğu', en: 'The verification journey' })}
+          </p>
           <h2 className="mt-3 font-display text-3xl font-extrabold tracking-tight text-balance text-white sm:text-4xl">
-            Follow an identity from photo to verified
+            {t({ tr: 'Bir kimliği fotoğraftan doğrulamaya kadar izleyin', en: 'Follow an identity from photo to verified' })}
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-white/70 text-pretty">
-            Every check runs in sequence, in seconds. Scroll to walk through exactly what happens under the hood.
+            {t({
+              tr: 'Her kontrol saniyeler içinde sırayla çalışır. Perde arkasında tam olarak ne olduğunu görmek için kaydırın.',
+              en: 'Every check runs in sequence, in seconds. Scroll to walk through exactly what happens under the hood.',
+            })}
           </p>
         </Reveal>
 
@@ -60,9 +67,9 @@ export function Journey() {
                   </span>
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-widest text-accent">
-                      Step {active + 1} / {journeySteps.length}
+                      {t({ tr: 'Adım', en: 'Step' })} {active + 1} / {journeySteps.length}
                     </p>
-                    <p className="mt-1 font-display text-xl font-bold text-white">{journeySteps[active].label}</p>
+                    <p className="mt-1 font-display text-xl font-bold text-white">{t(journeySteps[active].label)}</p>
                   </div>
                 </motion.div>
               </div>
@@ -74,7 +81,7 @@ export function Journey() {
                     key={s.id}
                     type="button"
                     onClick={() => setActive(i)}
-                    aria-label={`Go to ${s.label}`}
+                    aria-label={`${t({ tr: 'Şuraya git:', en: 'Go to' })} ${t(s.label)}`}
                     className={`h-2 rounded-full transition-all ${
                       i === active ? 'w-8 bg-accent' : 'w-2 bg-white/25 hover:bg-white/50'
                     }`}
@@ -115,9 +122,9 @@ export function Journey() {
                     >
                       <step.icon className="h-4 w-4" />
                     </span>
-                    <h3 className="font-display text-lg font-bold text-white">{step.title}</h3>
+                    <h3 className="font-display text-lg font-bold text-white">{t(step.title)}</h3>
                   </div>
-                  <p className="mt-3 text-sm leading-relaxed text-white/70">{step.description}</p>
+                  <p className="mt-3 text-sm leading-relaxed text-white/70">{t(step.description)}</p>
                 </div>
               </motion.li>
             ))}

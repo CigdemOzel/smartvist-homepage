@@ -3,9 +3,11 @@
 import { motion, useReducedMotion } from 'motion/react'
 import { ArrowRight, Play, Sparkles } from 'lucide-react'
 import { HeroVisual } from './hero-visual'
+import { useT } from '@/lib/i18n'
 
 export function Hero() {
   const reduce = useReducedMotion()
+  const t = useT()
 
   return (
     <section id="top" className="relative overflow-hidden pt-28 pb-16 sm:pt-36 sm:pb-24">
@@ -34,9 +36,9 @@ export function Hero() {
             className="inline-flex items-center gap-2 rounded-full border border-border bg-background/70 py-1.5 pl-1.5 pr-3 text-sm font-medium text-foreground shadow-sm backdrop-blur"
           >
             <span className="inline-flex items-center gap-1 rounded-full bg-brand px-2 py-0.5 text-xs font-semibold text-brand-foreground">
-              <Sparkles className="h-3 w-3" /> New
+              <Sparkles className="h-3 w-3" /> {t({ tr: 'Yeni', en: 'New' })}
             </span>
-            Meet the SmartID platform
+            {t({ tr: 'SmartID platformuyla tanışın', en: 'Meet the SmartID platform' })}
           </motion.a>
 
           <motion.h1
@@ -45,9 +47,9 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.05 }}
             className="mt-6 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-balance sm:text-5xl lg:text-6xl"
           >
-            Build trust with your customers in{' '}
+            {t({ tr: 'Müşterilerinizle haftalar değil, ', en: 'Build trust with your customers in ' })}
             <span className="relative whitespace-nowrap text-brand">
-              seconds
+              {t({ tr: 'saniyeler', en: 'seconds' })}
               <svg
                 aria-hidden="true"
                 viewBox="0 0 220 12"
@@ -57,7 +59,7 @@ export function Hero() {
                 <path d="M2 9C60 3 160 3 218 9" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
               </svg>
             </span>
-            , not weeks.
+            {t({ tr: ' içinde güven kurun.', en: ', not weeks.' })}
           </motion.h1>
 
           <motion.p
@@ -66,8 +68,10 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.15 }}
             className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground text-pretty lg:mx-0"
           >
-            Smartvist verifies identities and onboards customers remotely with AI-powered OCR, NFC, face match and
-            liveness — while keeping you compliant with the regulations that matter.
+            {t({
+              tr: 'Smartvist; AI destekli OCR, NFC, yüz eşleştirme ve canlılıkla kimlikleri doğrular ve müşterileri uzaktan kazandırır — üstelik önemli düzenlemelere uyumlu kalarak.',
+              en: 'Smartvist verifies identities and onboards customers remotely with AI-powered OCR, NFC, face match and liveness — while keeping you compliant with the regulations that matter.',
+            })}
           </motion.p>
 
           <motion.div
@@ -80,7 +84,7 @@ export function Hero() {
               href="#contact"
               className="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-6 py-3.5 text-base font-semibold text-brand-foreground shadow-lg shadow-brand/20 transition-all hover:shadow-xl hover:shadow-brand/30 sm:w-auto"
             >
-              Book a live demo
+              {t({ tr: 'Canlı demo planla', en: 'Book a live demo' })}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </a>
             <a
@@ -90,7 +94,7 @@ export function Hero() {
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand/10 text-brand">
                 <Play className="h-3 w-3 fill-current" />
               </span>
-              See how it works
+              {t({ tr: 'Nasıl çalıştığını gör', en: 'See how it works' })}
             </a>
           </motion.div>
 
@@ -100,8 +104,11 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.4 }}
             className="mt-6 text-sm text-muted-foreground"
           >
-            Trusted by <span className="font-semibold text-foreground">35+ regulated institutions</span> — banks,
-            brokers, crypto & e-money.
+            {t({ tr: 'Güvenilir tercih: ', en: 'Trusted by ' })}
+            <span className="font-semibold text-foreground">
+              {t({ tr: '35+ düzenlemeye tabi kurum', en: '35+ regulated institutions' })}
+            </span>
+            {t({ tr: ' — bankalar, aracı kurumlar, kripto ve e-para.', en: ' — banks, brokers, crypto & e-money.' })}
           </motion.p>
         </div>
 

@@ -1,6 +1,7 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Inter, Manrope } from 'next/font/google'
+import { LocaleProvider } from '@/lib/i18n'
 import './globals.css'
 
 const inter = Inter({
@@ -53,9 +54,9 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${manrope.variable} bg-background`}>
+    <html lang="tr" className={`${inter.variable} ${manrope.variable} bg-background`}>
       <body className="font-sans antialiased">
-        {children}
+        <LocaleProvider>{children}</LocaleProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

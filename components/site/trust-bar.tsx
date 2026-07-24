@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from 'motion/react'
 import { ShieldCheck, Fingerprint, Lock, Globe, ScanLine } from 'lucide-react'
+import { useT } from '@/lib/i18n'
 
 const sectors = [
   'Global Bank',
@@ -24,12 +25,16 @@ const standards = [
 
 export function TrustBar() {
   const reduce = useReducedMotion()
+  const t = useT()
 
   return (
     <section className="border-y border-border bg-muted/40 py-10">
       <div className="mx-auto max-w-6xl px-4">
         <p className="text-center text-sm font-medium text-muted-foreground">
-          Powering compliant onboarding for 35+ regulated institutions
+          {t({
+            tr: '35+ düzenlemeye tabi kurum için uyumlu müşteri kazanımını güçlendiriyoruz',
+            en: 'Powering compliant onboarding for 35+ regulated institutions',
+          })}
         </p>
 
         {/* marquee */}
