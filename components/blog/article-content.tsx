@@ -1,5 +1,5 @@
 import { Quote } from 'lucide-react'
-import type { ContentBlock } from '@/lib/blog-data'
+import { type ContentBlock, icons } from '@/lib/blog-data'
 import { Reveal } from '@/components/site/reveal'
 
 export function ArticleContent({ blocks }: { blocks: ContentBlock[] }) {
@@ -49,7 +49,7 @@ function Block({ block }: { block: ContentBlock }) {
       )
 
     case 'callout': {
-      const Icon = block.icon
+      const Icon = icons[block.icon]
       return (
         <div className="relative overflow-hidden rounded-2xl border border-brand/20 bg-brand-soft/50 p-6">
           <div className="flex items-start gap-4">

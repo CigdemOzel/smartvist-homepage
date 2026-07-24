@@ -4,12 +4,12 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion, useReducedMotion } from 'motion/react'
 import { ArrowUpRight } from 'lucide-react'
-import { type Article, categoryLabel } from '@/lib/blog-data'
+import { type Article, categoryLabel, icons } from '@/lib/blog-data'
 import { ArticleMeta, CategoryPill } from './article-meta'
 
 export function BlogCard({ article, index = 0 }: { article: Article; index?: number }) {
   const reduce = useReducedMotion()
-  const Icon = article.icon
+  const Icon = icons[article.icon]
 
   return (
     <motion.article

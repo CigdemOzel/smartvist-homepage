@@ -11,6 +11,34 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 
+/**
+ * Icons are referenced by string id so article data stays fully serializable
+ * across the React Server Component boundary (Lucide components are functions
+ * and cannot be passed to Client Components).
+ */
+export type IconId =
+  | 'brain'
+  | 'scan-line'
+  | 'nfc'
+  | 'scan-face'
+  | 'shield'
+  | 'radar'
+  | 'video'
+  | 'file-check'
+  | 'building'
+
+export const icons: Record<IconId, LucideIcon> = {
+  brain: BrainCircuit,
+  'scan-line': ScanLine,
+  nfc: Nfc,
+  'scan-face': ScanFace,
+  shield: ShieldCheck,
+  radar: Radar,
+  video: Video,
+  'file-check': FileCheck2,
+  building: Building2,
+}
+
 export type CategoryId =
   | 'ai'
   | 'identity-verification'
@@ -62,7 +90,7 @@ export type ContentBlock =
   | { type: 'heading'; text: string }
   | { type: 'paragraph'; text: string }
   | { type: 'list'; items: string[] }
-  | { type: 'callout'; title: string; text: string; icon: LucideIcon }
+  | { type: 'callout'; title: string; text: string; icon: IconId }
   | { type: 'quote'; text: string; cite: string }
   | { type: 'stats'; items: { value: string; label: string }[] }
   | { type: 'steps'; title?: string; items: { title: string; text: string }[] }
@@ -76,7 +104,7 @@ export type Article = {
   date: string // ISO
   readingMinutes: number
   cover: string
-  icon: LucideIcon
+  icon: IconId
   featured?: boolean
   tags: string[]
   content: ContentBlock[]
@@ -93,7 +121,7 @@ export const articles: Article[] = [
     date: '2026-06-26',
     readingMinutes: 9,
     cover: '/blog/physical-id-to-digital-trust.png',
-    icon: ShieldCheck,
+    icon: 'shield',
     featured: true,
     tags: ['ICAO 9303', 'Standards', 'Onboarding'],
     content: [
@@ -126,7 +154,7 @@ export const articles: Article[] = [
         type: 'callout',
         title: 'Why standards matter',
         text: 'ICAO 9303 defines how machine-readable travel documents are structured and read. Building verification on top of published standards is what lets a check performed in Istanbul behave identically to one in London.',
-        icon: FileCheck2,
+        icon: 'file-check',
       },
       {
         type: 'heading',
@@ -165,7 +193,7 @@ export const articles: Article[] = [
     date: '2026-06-18',
     readingMinutes: 8,
     cover: '/blog/on-device-on-premises-ai-architecture.png',
-    icon: BrainCircuit,
+    icon: 'brain',
     tags: ['On-device AI', 'Privacy', 'Architecture'],
     content: [
       {
@@ -197,7 +225,7 @@ export const articles: Article[] = [
         type: 'callout',
         title: 'Privacy by architecture',
         text: 'When biometric processing happens on-device, privacy is not a policy bolted on afterwards — it is a property of where the computation runs.',
-        icon: ShieldCheck,
+        icon: 'shield',
       },
       {
         type: 'list',
@@ -225,7 +253,7 @@ export const articles: Article[] = [
     date: '2026-05-15',
     readingMinutes: 7,
     cover: '/blog/smartid-sdk-mobile-verification.png',
-    icon: ScanFace,
+    icon: 'scan-face',
     tags: ['SDK', 'Mobile', 'UX'],
     content: [
       {
@@ -254,7 +282,7 @@ export const articles: Article[] = [
         type: 'callout',
         title: 'On-device by default',
         text: 'The heavy lifting runs on the phone, so verification stays fast and sensitive data stays local — a better experience and a stronger privacy posture at once.',
-        icon: BrainCircuit,
+        icon: 'brain',
       },
       {
         type: 'stats',
@@ -280,7 +308,7 @@ export const articles: Article[] = [
     date: '2026-05-08',
     readingMinutes: 6,
     cover: '/blog/smartid-studio-kyc-management.png',
-    icon: Building2,
+    icon: 'building',
     tags: ['KYC', 'Operations', 'Audit'],
     content: [
       {
@@ -308,7 +336,7 @@ export const articles: Article[] = [
         type: 'callout',
         title: 'Built for scale and audit',
         text: 'When a regulator asks why a customer was approved, the answer should be one click away. Studio records the evidence behind every decision.',
-        icon: FileCheck2,
+        icon: 'file-check',
       },
       {
         type: 'quote',
@@ -327,7 +355,7 @@ export const articles: Article[] = [
     date: '2026-04-28',
     readingMinutes: 6,
     cover: '/blog/smartid-agent-remote-identification.png',
-    icon: Video,
+    icon: 'video',
     tags: ['Product', 'Video', 'Automation'],
     content: [
       {
@@ -355,7 +383,7 @@ export const articles: Article[] = [
         type: 'callout',
         title: 'Efficiency without losing rigour',
         text: 'Automation removes the queue, not the evidence. Each Agent session is as auditable as a human-led one.',
-        icon: ShieldCheck,
+        icon: 'shield',
       },
       {
         type: 'stats',
@@ -377,7 +405,7 @@ export const articles: Article[] = [
     date: '2026-04-12',
     readingMinutes: 7,
     cover: '/blog/ocr-icao-9303-document-authenticity.png',
-    icon: ScanLine,
+    icon: 'scan-line',
     tags: ['OCR', 'ICAO 9303', 'Documents'],
     content: [
       {
@@ -402,7 +430,7 @@ export const articles: Article[] = [
         type: 'callout',
         title: 'Cross-checking beats reading',
         text: 'A forger can copy a name. It is far harder to make the printed data, the MRZ check digits and the chip all agree. Consistency is the real signal.',
-        icon: FileCheck2,
+        icon: 'file-check',
       },
       {
         type: 'paragraph',
@@ -420,7 +448,7 @@ export const articles: Article[] = [
     date: '2026-03-30',
     readingMinutes: 6,
     cover: '/blog/nfc-chip-verification-explained.png',
-    icon: Nfc,
+    icon: 'nfc',
     tags: ['NFC', 'Cryptography', 'Chip'],
     content: [
       {
@@ -443,7 +471,7 @@ export const articles: Article[] = [
         type: 'callout',
         title: 'Why NFC is so powerful',
         text: 'A printed forgery has to fool a camera. A chip forgery has to defeat cryptography signed by a national authority — a fundamentally harder problem.',
-        icon: ShieldCheck,
+        icon: 'shield',
       },
       {
         type: 'quote',
@@ -466,7 +494,7 @@ export const articles: Article[] = [
     date: '2026-03-16',
     readingMinutes: 8,
     cover: '/blog/aml-risk-screening-onboarding.png',
-    icon: Radar,
+    icon: 'radar',
     tags: ['AML', 'Risk', 'Compliance'],
     content: [
       {
@@ -494,7 +522,7 @@ export const articles: Article[] = [
         type: 'callout',
         title: 'Identity first, risk second',
         text: 'Screening is only as good as the identity it is attached to. Verifying the person first is what makes an AML hit — or a clear pass — trustworthy.',
-        icon: ShieldCheck,
+        icon: 'shield',
       },
       {
         type: 'steps',
@@ -522,7 +550,7 @@ export const articles: Article[] = [
     date: '2026-02-28',
     readingMinutes: 9,
     cover: '/blog/liveness-deepfake-defense.png',
-    icon: ScanFace,
+    icon: 'scan-face',
     tags: ['Liveness', 'Deepfakes', 'Biometrics'],
     content: [
       {
@@ -550,7 +578,7 @@ export const articles: Article[] = [
         type: 'callout',
         title: 'Defence in depth',
         text: 'No single check is unbeatable. Layering independent signals is what makes an attack that fools one of them fail against the rest.',
-        icon: Radar,
+        icon: 'radar',
       },
       {
         type: 'stats',
