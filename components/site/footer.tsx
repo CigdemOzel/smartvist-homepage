@@ -1,50 +1,26 @@
-'use client'
-
 import { Logo } from './logo'
 import { MapPin, Phone } from 'lucide-react'
-import { useT, type Localized } from '@/lib/i18n'
 
-const columns: { title: Localized; links: Localized[] }[] = [
+const columns = [
   {
-    title: { tr: 'Platform', en: 'Platform' },
-    links: [
-      { tr: 'SmartID SDK', en: 'SmartID SDK' },
-      { tr: 'SmartID Studio', en: 'SmartID Studio' },
-      { tr: 'SmartID Agent', en: 'SmartID Agent' },
-      { tr: 'Doğrulama yolculuğu', en: 'Verification journey' },
-    ],
+    title: 'Platform',
+    links: ['SmartID SDK', 'SmartID Studio', 'SmartID Agent', 'Verification journey'],
   },
   {
-    title: { tr: 'Çözümler', en: 'Solutions' },
-    links: [
-      { tr: 'Müşteri kazanımı', en: 'Customer acquisition' },
-      { tr: 'KYC & KYB otomasyonu', en: 'KYC & KYB automation' },
-      { tr: 'Dolandırıcılık önleme', en: 'Fraud prevention' },
-      { tr: 'Bankacılık & fintech', en: 'Banking & fintech' },
-    ],
+    title: 'Solutions',
+    links: ['Customer acquisition', 'KYC & KYB automation', 'Fraud prevention', 'Banking & fintech'],
   },
   {
-    title: { tr: 'Teknoloji', en: 'Technology' },
-    links: [
-      { tr: 'OCR & belgeler', en: 'OCR & documents' },
-      { tr: 'NFC & çip', en: 'NFC & chip' },
-      { tr: 'Yüz & canlılık', en: 'Face & liveness' },
-      { tr: 'AI & risk analizi', en: 'AI & risk analysis' },
-    ],
+    title: 'Technology',
+    links: ['OCR & documents', 'NFC & chip', 'Face & liveness', 'AI & risk analysis'],
   },
   {
-    title: { tr: 'Şirket', en: 'Company' },
-    links: [
-      { tr: 'Smartvist hakkında', en: 'About Smartvist' },
-      { tr: 'Örnek çalışmalar', en: 'Case studies' },
-      { tr: 'Bilgi güvenliği', en: 'Information security' },
-      { tr: 'İletişim', en: 'Contact' },
-    ],
+    title: 'Company',
+    links: ['About Smartvist', 'Case studies', 'Information security', 'Contact'],
   },
 ]
 
 export function Footer() {
-  const t = useT()
   return (
     <footer className="border-t border-border bg-muted/30">
       <div className="mx-auto max-w-6xl px-4 py-14">
@@ -52,10 +28,7 @@ export function Footer() {
           <div>
             <Logo />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
-              {t({
-                tr: 'Düzenlemeye tabi kurumlar için AI destekli kimlik doğrulama ve uzaktan müşteri kazanımı.',
-                en: 'AI-powered identity verification and remote customer onboarding for regulated institutions.',
-              })}
+              AI-powered identity verification and remote customer onboarding for regulated institutions.
             </p>
             <div className="mt-5 space-y-2 text-sm text-muted-foreground">
               <p className="flex items-start gap-2">
@@ -71,16 +44,16 @@ export function Footer() {
 
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
             {columns.map((col) => (
-              <div key={col.title.en}>
-                <h3 className="font-display text-sm font-bold text-foreground">{t(col.title)}</h3>
+              <div key={col.title}>
+                <h3 className="font-display text-sm font-bold text-foreground">{col.title}</h3>
                 <ul className="mt-3 space-y-2">
                   {col.links.map((link) => (
-                    <li key={link.en}>
+                    <li key={link}>
                       <a
                         href="#top"
                         className="text-sm text-muted-foreground transition-colors hover:text-brand"
                       >
-                        {t(link)}
+                        {link}
                       </a>
                     </li>
                   ))}
@@ -92,18 +65,17 @@ export function Footer() {
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-6 sm:flex-row">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Smartvist Teknoloji.{' '}
-            {t({ tr: 'Tüm hakları saklıdır.', en: 'All rights reserved.' })}
+            © {new Date().getFullYear()} Smartvist Teknoloji. All rights reserved.
           </p>
           <div className="flex items-center gap-6 text-sm text-muted-foreground">
             <a href="#top" className="transition-colors hover:text-brand">
-              {t({ tr: 'Gizlilik', en: 'Privacy' })}
+              Privacy
             </a>
             <a href="#top" className="transition-colors hover:text-brand">
-              {t({ tr: 'Bilgi Güvenliği (BGYS)', en: 'Information Security (ISMS)' })}
+              Information Security (ISMS)
             </a>
             <a href="#top" className="transition-colors hover:text-brand">
-              {t({ tr: 'Koşullar', en: 'Terms' })}
+              Terms
             </a>
           </div>
         </div>
