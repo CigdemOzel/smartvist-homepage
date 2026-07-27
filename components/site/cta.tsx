@@ -2,11 +2,17 @@
 
 import { motion, useReducedMotion } from 'motion/react'
 import { ArrowRight, Check } from 'lucide-react'
+import { useT, type Localized } from '@/lib/i18n'
 
-const points = ['Live product walkthrough', 'Tailored to your compliance needs', 'No engineering effort to evaluate']
+const points: Localized[] = [
+  { tr: 'Canlı ürün demosu', en: 'Live product walkthrough' },
+  { tr: 'Uyum ihtiyaçlarınıza uyarlanmış', en: 'Tailored to your compliance needs' },
+  { tr: 'Değerlendirmek için mühendislik çabası gerekli değil', en: 'No engineering effort to evaluate' },
+]
 
 export function CTA() {
   const reduce = useReducedMotion()
+  const t = useT()
 
   return (
     <section id="contact" className="relative py-20 sm:py-28">
@@ -24,19 +30,21 @@ export function CTA() {
           <div className="relative grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
             <div>
               <h2 className="font-display text-3xl font-extrabold leading-tight tracking-tight text-balance sm:text-4xl">
-                See Smartvist verify an identity in real time
+                {t({ tr: 'Smartvist\'i gerçek zamanlı kimlik doğrulamasında görmek', en: 'See Smartvist verify an identity in real time' })}
               </h2>
               <p className="mt-4 max-w-lg text-lg leading-relaxed text-brand-foreground/80 text-pretty">
-                Book a demo and watch a full onboarding — document, face, liveness, NFC and decision — complete in
-                seconds on your own flow.
+                {t({
+                  tr: 'Demo kayıt olun ve tam bir müşteri kazanımı izleyin — belge, yüz, canlılık, NFC ve karar — kendi akışınızda saniyeler içinde tamamlanır.',
+                  en: 'Book a demo and watch a full onboarding — document, face, liveness, NFC and decision — complete in seconds on your own flow.',
+                })}
               </p>
               <ul className="mt-6 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-x-6">
                 {points.map((p) => (
-                  <li key={p} className="flex items-center gap-2 text-sm font-medium text-brand-foreground/90">
+                  <li key={t(p)} className="flex items-center gap-2 text-sm font-medium text-brand-foreground/90">
                     <span className="flex h-5 w-5 items-center justify-center rounded-full bg-accent text-brand-ink">
                       <Check className="h-3 w-3" />
                     </span>
-                    {p}
+                    {t(p)}
                   </li>
                 ))}
               </ul>
@@ -47,7 +55,7 @@ export function CTA() {
               onSubmit={(e) => e.preventDefault()}
             >
               <label className="block text-sm font-medium text-brand-foreground/90" htmlFor="work-email">
-                Work email
+                {t({ tr: 'İş e-postası', en: 'Work email' })}
               </label>
               <input
                 id="work-email"
@@ -60,11 +68,11 @@ export function CTA() {
                 type="submit"
                 className="group mt-3 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-5 py-3 text-sm font-bold text-brand-ink transition-transform hover:-translate-y-0.5"
               >
-                Book a demo
+                {t({ tr: 'Demo planla', en: 'Book a demo' })}
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </button>
               <p className="mt-3 text-center text-xs text-brand-foreground/60">
-                We&apos;ll get back to you within one business day.
+                {t({ tr: 'Bir iş günü içinde dönüş yapacağız.', en: "We'll get back to you within one business day." })}
               </p>
             </form>
           </div>

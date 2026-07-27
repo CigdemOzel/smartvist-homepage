@@ -12,7 +12,9 @@ export function RelatedArticles({ slug }: { slug: string }) {
         <Reveal>
           <div className="mb-10 flex items-end justify-between gap-4">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-widest text-brand">Keep reading</p>
+              <p className="text-sm font-semibold uppercase tracking-widest text-brand">
+                Keep reading
+              </p>
               <h2 className="mt-2 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                 Related articles
               </h2>

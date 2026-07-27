@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { Search, X, FileQuestion } from 'lucide-react'
 import { type Article, categories } from '@/lib/blog-data'
+import { useT } from '@/lib/i18n'
 import { BlogCard } from './blog-card'
 import { cn } from '@/lib/utils'
 
@@ -11,6 +12,7 @@ type Filter = 'all' | string
 
 export function BlogIndex({ articles }: { articles: Article[] }) {
   const reduce = useReducedMotion()
+  const t = useT()
   const [query, setQuery] = useState('')
   const [active, setActive] = useState<Filter>('all')
 
@@ -39,15 +41,17 @@ export function BlogIndex({ articles }: { articles: Article[] }) {
       {/* Controls */}
       <div className="flex flex-col gap-5 border-b border-border pb-6">
         <div className="flex items-center justify-between gap-4">
-          <h2 className="font-display text-xl font-bold text-foreground sm:text-2xl">Latest articles</h2>
+          <h2 className="font-display text-xl font-bold text-foreground sm:text-2xl">
+            {t({ tr: 'Son makaleler', en: 'Latest articles' })}
+          </h2>
           <div className="relative w-full max-w-xs">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <input
               type="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search articles…"
-              aria-label="Search articles"
+              placeholder={t({ tr: 'Makalelerde ara…', en: 'Search articles…' })}
+              aria-label={t({ tr: 'Makalelerde ara', en: 'Search articles' })}
               className="w-full rounded-xl border border-border bg-background py-2.5 pl-9 pr-9 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-brand focus:ring-2 focus:ring-brand/20"
             />
             {query && (
@@ -65,11 +69,11 @@ export function BlogIndex({ articles }: { articles: Article[] }) {
 
         {/* Category filters */}
         <div className="-mx-1 flex flex-wrap gap-2">
-          <FilterChip label="All" count={articles.length} active={active === 'all'} onClick={() => setActive('all')} />
+          <FilterChip label={t({ tr: 'Tümü', en: 'All' })} count={articles.length} active={active === 'all'} onClick={() => setActive('all')} />
           {categories.map((c) => (
             <FilterChip
               key={c.id}
-              label={c.label}
+              label={t(c.label)}
               count={counts[c.id] ?? 0}
               active={active === c.id}
               onClick={() => setActive(c.id)}
@@ -101,9 +105,11 @@ export function BlogIndex({ articles }: { articles: Article[] }) {
               <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-muted text-muted-foreground">
                 <FileQuestion className="h-6 w-6" />
               </span>
-              <p className="mt-4 font-display text-lg font-semibold text-foreground">No articles found</p>
+              <p className="mt-4 font-display text-lg font-semibold text-foreground">
+                {t({ tr: 'Makale bulunamadı', en: 'No articles found' })}
+              </p>
               <p className="mt-1 text-sm text-muted-foreground">
-                Try a different search term or category.
+                {t({ tr: 'Farklı bir arama terimi veya kategori deneyin.', en: 'Try a different search term or category.' })}
               </p>
               <button
                 type="button"
@@ -113,7 +119,7 @@ export function BlogIndex({ articles }: { articles: Article[] }) {
                 }}
                 className="mt-5 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-brand-foreground transition-colors hover:opacity-90"
               >
-                Reset filters
+                {t({ tr: 'Filtreleri sıfırla', en: 'Reset filters' })}
               </button>
             </motion.div>
           )}
