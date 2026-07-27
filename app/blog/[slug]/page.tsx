@@ -1,16 +1,18 @@
 import type { Metadata } from 'next'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
-import { Navbar } from '@/components/site/navbar'
-import { Footer } from '@/components/site/footer'
 import { Reveal } from '@/components/site/reveal'
 import { ArticleContent } from '@/components/blog/article-content'
-import { ArticleMeta, CategoryPill } from '@/components/blog/article-meta'
-import { RelatedArticles } from '@/components/blog/related-articles'
+import { ArticleMeta } from '@/components/blog/article-meta'
 import { ReadingProgress } from '@/components/blog/reading-progress'
 import { articles, getArticle, categoryLabel } from '@/lib/blog-data'
+
+const Navbar = dynamic(() => import('@/components/site/navbar').then((m) => ({ default: m.Navbar })), { ssr: false })
+const Footer = dynamic(() => import('@/components/site/footer').then((m) => ({ default: m.Footer })), { ssr: false })
+const RelatedArticles = dynamic(() => import('@/components/blog/related-articles').then((m) => ({ default: m.RelatedArticles })), { ssr: false })
 
 export function generateStaticParams() {
   return articles.map((a) => ({ slug: a.slug }))
@@ -66,7 +68,9 @@ export default async function ArticlePage({
 
           <Reveal delay={0.05}>
             <div className="mt-6">
-              <CategoryPill label={categoryLabel(article.category)} />
+              <span className="inline-flex rounded-full border border-border bg-brand-soft px-3 py-1 text-xs font-semibold text-brand">
+                {categoryLabel(article.category)}
+              </span>
             </div>
           </Reveal>
 

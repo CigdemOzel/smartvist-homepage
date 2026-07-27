@@ -1,3 +1,5 @@
+'use client'
+
 import { Logo } from './logo'
 import { MapPin, Phone } from 'lucide-react'
 import { useT, type Localized } from '@/lib/i18n'
