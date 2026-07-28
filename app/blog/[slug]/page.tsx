@@ -10,9 +10,9 @@ import { ArticleMeta } from '@/components/blog/article-meta'
 import { ReadingProgress } from '@/components/blog/reading-progress'
 import { articles, getArticle, categoryLabel } from '@/lib/blog-data'
 
-const Navbar = dynamic(() => import('@/components/site/navbar').then((m) => ({ default: m.Navbar })), { ssr: false })
-const Footer = dynamic(() => import('@/components/site/footer').then((m) => ({ default: m.Footer })), { ssr: false })
-const RelatedArticles = dynamic(() => import('@/components/blog/related-articles').then((m) => ({ default: m.RelatedArticles })), { ssr: false })
+const Navbar = dynamic(() => import('@/components/site/navbar').then((m) => ({ default: m.Navbar })))
+const Footer = dynamic(() => import('@/components/site/footer').then((m) => ({ default: m.Footer })))
+const RelatedArticles = dynamic(() => import('@/components/blog/related-articles').then((m) => ({ default: m.RelatedArticles })))
 
 export function generateStaticParams() {
   return articles.map((a) => ({ slug: a.slug }))
