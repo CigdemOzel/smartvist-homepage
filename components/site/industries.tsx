@@ -19,13 +19,13 @@ export function Industries() {
               {t({ tr: 'Sektörler', en: 'Industries' })}
             </p>
             <h2 className="mt-3 font-display text-3xl font-extrabold tracking-tight text-balance sm:text-4xl">
-              {t({ tr: 'Düzenlemeye tabi, yüksek riskli müşteri kazanımı için', en: 'Built for regulated, high-stakes onboarding' })}
+              {t({ tr: 'Düzenlemeye tabi, yüksek riskli müşteri kazanımı için tasarlandı', en: 'Built for regulated, high-stakes onboarding' })}
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
             <p className="text-lg leading-relaxed text-muted-foreground text-pretty">
               {t({
-                tr: 'Bankalardan kripto platformlarına kadar Smartvist, hizmet verdiği her sektörün uyum ve deneyim gereksinimlerine uyum sağlar.',
+                tr: 'Bankalardan kripto platformlarına, Smartvist her sektörün uyum ve deneyim taleplerinden uyum sağlar.',
                 en: 'From banks to crypto platforms, Smartvist adapts to the compliance and experience demands of every sector it serves.',
               })}
             </p>

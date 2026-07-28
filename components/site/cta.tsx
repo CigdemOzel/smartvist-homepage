@@ -5,9 +5,9 @@ import { ArrowRight, Check } from 'lucide-react'
 import { useT, type Localized } from '@/lib/i18n'
 
 const points: Localized[] = [
-  { tr: 'Canlı ürün turu', en: 'Live product walkthrough' },
-  { tr: 'Uyum ihtiyaçlarınıza göre uyarlanmış', en: 'Tailored to your compliance needs' },
-  { tr: 'Değerlendirmek için mühendislik eforu gerekmez', en: 'No engineering effort to evaluate' },
+  { tr: 'Canlı ürün demosu', en: 'Live product walkthrough' },
+  { tr: 'Uyum ihtiyaçlarınıza uyarlanmış', en: 'Tailored to your compliance needs' },
+  { tr: 'Değerlendirmek için mühendislik çabası gerekli değil', en: 'No engineering effort to evaluate' },
 ]
 
 export function CTA() {
@@ -30,17 +30,17 @@ export function CTA() {
           <div className="relative grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
             <div>
               <h2 className="font-display text-3xl font-extrabold leading-tight tracking-tight text-balance sm:text-4xl">
-                {t({ tr: 'Smartvist’in bir kimliği gerçek zamanlı doğrulamasını izleyin', en: 'See Smartvist verify an identity in real time' })}
+                {t({ tr: 'Smartvist\'i gerçek zamanlı kimlik doğrulamasında görmek', en: 'See Smartvist verify an identity in real time' })}
               </h2>
               <p className="mt-4 max-w-lg text-lg leading-relaxed text-brand-foreground/80 text-pretty">
                 {t({
-                  tr: 'Bir demo planlayın ve kendi akışınızda tam bir müşteri kazanımını — belge, yüz, canlılık, NFC ve karar — saniyeler içinde tamamlanırken izleyin.',
+                  tr: 'Demo kayıt olun ve tam bir müşteri kazanımı izleyin — belge, yüz, canlılık, NFC ve karar — kendi akışınızda saniyeler içinde tamamlanır.',
                   en: 'Book a demo and watch a full onboarding — document, face, liveness, NFC and decision — complete in seconds on your own flow.',
                 })}
               </p>
               <ul className="mt-6 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-x-6">
                 {points.map((p) => (
-                  <li key={p.en} className="flex items-center gap-2 text-sm font-medium text-brand-foreground/90">
+                  <li key={t(p)} className="flex items-center gap-2 text-sm font-medium text-brand-foreground/90">
                     <span className="flex h-5 w-5 items-center justify-center rounded-full bg-accent text-brand-ink">
                       <Check className="h-3 w-3" />
                     </span>
@@ -61,7 +61,7 @@ export function CTA() {
                 id="work-email"
                 type="email"
                 required
-                placeholder={t({ tr: 'siz@sirket.com', en: 'you@company.com' })}
+                placeholder="you@company.com"
                 className="mt-2 w-full rounded-xl border border-white/20 bg-white/90 px-4 py-3 text-sm text-brand-ink outline-none ring-accent placeholder:text-brand-ink/50 focus:ring-2"
               />
               <button
@@ -72,7 +72,7 @@ export function CTA() {
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </button>
               <p className="mt-3 text-center text-xs text-brand-foreground/60">
-                {t({ tr: 'Bir iş günü içinde size geri döneceğiz.', en: "We'll get back to you within one business day." })}
+                {t({ tr: 'Bir iş günü içinde dönüş yapacağız.', en: "We'll get back to you within one business day." })}
               </p>
             </form>
           </div>

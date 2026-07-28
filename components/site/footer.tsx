@@ -18,25 +18,25 @@ const columns: { title: Localized; links: Localized[] }[] = [
     title: { tr: 'Çözümler', en: 'Solutions' },
     links: [
       { tr: 'Müşteri kazanımı', en: 'Customer acquisition' },
-      { tr: 'KYC & KYB otomasyonu', en: 'KYC & KYB automation' },
+      { tr: 'KYC ve KYB otomasyonu', en: 'KYC & KYB automation' },
       { tr: 'Dolandırıcılık önleme', en: 'Fraud prevention' },
-      { tr: 'Bankacılık & fintech', en: 'Banking & fintech' },
+      { tr: 'Bankacılık ve fintek', en: 'Banking & fintech' },
     ],
   },
   {
     title: { tr: 'Teknoloji', en: 'Technology' },
     links: [
-      { tr: 'OCR & belgeler', en: 'OCR & documents' },
-      { tr: 'NFC & çip', en: 'NFC & chip' },
-      { tr: 'Yüz & canlılık', en: 'Face & liveness' },
-      { tr: 'AI & risk analizi', en: 'AI & risk analysis' },
+      { tr: 'OCR ve belgeler', en: 'OCR & documents' },
+      { tr: 'NFC ve çip', en: 'NFC & chip' },
+      { tr: 'Yüz ve canlılık', en: 'Face & liveness' },
+      { tr: 'AI ve risk analizi', en: 'AI & risk analysis' },
     ],
   },
   {
     title: { tr: 'Şirket', en: 'Company' },
     links: [
       { tr: 'Smartvist hakkında', en: 'About Smartvist' },
-      { tr: 'Örnek çalışmalar', en: 'Case studies' },
+      { tr: 'Vaka çalışmaları', en: 'Case studies' },
       { tr: 'Bilgi güvenliği', en: 'Information security' },
       { tr: 'İletişim', en: 'Contact' },
     ],
@@ -53,7 +53,7 @@ export function Footer() {
             <Logo />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
               {t({
-                tr: 'Düzenlemeye tabi kurumlar için AI destekli kimlik doğrulama ve uzaktan müşteri kazanımı.',
+                tr: 'Düzenlemeye tabi kurumlar için AI destekli kimlik doğrulaması ve uzaktan müşteri kazanımı.',
                 en: 'AI-powered identity verification and remote customer onboarding for regulated institutions.',
               })}
             </p>
@@ -71,11 +71,11 @@ export function Footer() {
 
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
             {columns.map((col) => (
-              <div key={col.title.en}>
+              <div key={t(col.title)}>
                 <h3 className="font-display text-sm font-bold text-foreground">{t(col.title)}</h3>
                 <ul className="mt-3 space-y-2">
                   {col.links.map((link) => (
-                    <li key={link.en}>
+                    <li key={t(link)}>
                       <a
                         href="#top"
                         className="text-sm text-muted-foreground transition-colors hover:text-brand"
@@ -92,18 +92,17 @@ export function Footer() {
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-6 sm:flex-row">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Smartvist Teknoloji.{' '}
-            {t({ tr: 'Tüm hakları saklıdır.', en: 'All rights reserved.' })}
+            © {new Date().getFullYear()} Smartvist Teknoloji. {t({ tr: 'Tüm hakları saklıdır.', en: 'All rights reserved.' })}
           </p>
           <div className="flex items-center gap-6 text-sm text-muted-foreground">
             <a href="#top" className="transition-colors hover:text-brand">
               {t({ tr: 'Gizlilik', en: 'Privacy' })}
             </a>
             <a href="#top" className="transition-colors hover:text-brand">
-              {t({ tr: 'Bilgi Güvenliği (BGYS)', en: 'Information Security (ISMS)' })}
+              {t({ tr: 'Bilgi Güvenliği (ISMS)', en: 'Information Security (ISMS)' })}
             </a>
             <a href="#top" className="transition-colors hover:text-brand">
-              {t({ tr: 'Koşullar', en: 'Terms' })}
+              {t({ tr: 'Şartlar', en: 'Terms' })}
             </a>
           </div>
         </div>

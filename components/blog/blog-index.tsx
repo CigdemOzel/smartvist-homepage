@@ -39,7 +39,9 @@ export function BlogIndex({ articles }: { articles: Article[] }) {
       {/* Controls */}
       <div className="flex flex-col gap-5 border-b border-border pb-6">
         <div className="flex items-center justify-between gap-4">
-          <h2 className="font-display text-xl font-bold text-foreground sm:text-2xl">Latest articles</h2>
+          <h2 className="font-display text-xl font-bold text-foreground sm:text-2xl">
+            Latest articles
+          </h2>
           <div className="relative w-full max-w-xs">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <input
@@ -101,7 +103,9 @@ export function BlogIndex({ articles }: { articles: Article[] }) {
               <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-muted text-muted-foreground">
                 <FileQuestion className="h-6 w-6" />
               </span>
-              <p className="mt-4 font-display text-lg font-semibold text-foreground">No articles found</p>
+              <p className="mt-4 font-display text-lg font-semibold text-foreground">
+                No articles found
+              </p>
               <p className="mt-1 text-sm text-muted-foreground">
                 Try a different search term or category.
               </p>

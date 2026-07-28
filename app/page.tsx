@@ -9,6 +9,8 @@ import { Industries } from '@/components/site/industries'
 import { WhySmartvist } from '@/components/site/why-smartvist'
 import { Resources } from '@/components/site/resources'
 import { CTA } from '@/components/site/cta'
+import { PolicySection } from '@/components/site/policy-section'
+import { ContactSection } from '@/components/site/contact-section'
 import { Footer } from '@/components/site/footer'
 
 export default function Page() {
@@ -26,6 +28,8 @@ export default function Page() {
         <WhySmartvist />
         <Resources />
         <CTA />
+        <PolicySection />
+        <ContactSection />
       </main>
       <Footer />
     </>

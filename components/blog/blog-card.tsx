@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { motion, useReducedMotion } from 'motion/react'
 import { ArrowUpRight } from 'lucide-react'
 import { type Article, categoryLabel, icons } from '@/lib/blog-data'
-import { ArticleMeta, CategoryPill } from './article-meta'
+import { ArticleMeta } from './article-meta'
 
 export function BlogCard({ article, index = 0 }: { article: Article; index?: number }) {
   const reduce = useReducedMotion()
@@ -30,7 +30,9 @@ export function BlogCard({ article, index = 0 }: { article: Article; index?: num
           />
           <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/45 via-transparent to-transparent" />
           <div className="absolute left-4 top-4">
-            <CategoryPill label={categoryLabel(article.category)} tone="inverted" />
+            <span className="inline-flex rounded-full border border-white/25 bg-white/15 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur-sm">
+              {categoryLabel(article.category)}
+            </span>
           </div>
           <span className="absolute right-4 top-4 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white ring-1 ring-white/25 backdrop-blur-sm">
             <Icon className="h-4 w-4" />

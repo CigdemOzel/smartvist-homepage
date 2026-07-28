@@ -44,8 +44,7 @@ export function BlogHero({ article }: { article: Article }) {
             Ideas on the future of digital trust
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Deep dives on identity verification, AI, biometrics and compliance — from the team building
-            next-generation onboarding.
+            Deep dives on identity verification, AI, biometrics and compliance — from the team building next-generation onboarding.
           </p>
         </motion.div>
 

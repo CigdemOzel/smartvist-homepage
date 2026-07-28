@@ -1,32 +1,23 @@
 'use client'
 
 import { ArrowUpRight, Quote } from 'lucide-react'
+import { type Localized, useT } from '@/lib/i18n'
 import { Reveal, Stagger, StaggerItem } from './reveal'
-import { useT, type Localized } from '@/lib/i18n'
 
 const cases: { tag: Localized; title: Localized; metric: Localized }[] = [
   {
     tag: { tr: 'Bankacılık', en: 'Banking' },
-    title: {
-      tr: 'Bir bireysel banka müşteri kazanım süresini 3 günden bir dakikanın altına indirdi',
-      en: 'A retail bank cut onboarding time from 3 days to under a minute',
-    },
-    metric: { tr: '−%92 terk', en: '−92% drop-off' },
+    title: { tr: 'Bir perakende banka, müşteri kazanım süresini 3 günden 1 dakikanın altına düşürdü', en: 'A retail bank cut onboarding time from 3 days to under a minute' },
+    metric: { tr: '−92% bırakma', en: '−92% drop-off' },
   },
   {
     tag: { tr: 'Kripto', en: 'Crypto' },
-    title: {
-      tr: 'Bir borsa, ekip büyütmeden KYC’yi yeni pazarlara ölçekledi',
-      en: 'An exchange scaled KYC to new markets without adding headcount',
-    },
+    title: { tr: 'Bir borsa, personel eklemeden KYC\'yi yeni pazarlara ölçekledi', en: 'An exchange scaled KYC to new markets without adding headcount' },
     metric: { tr: '5 yeni bölge', en: '5 new regions' },
   },
   {
-    tag: { tr: 'Telekom', en: 'Telecom' },
-    title: {
-      tr: 'Uzaktan SIM aktivasyonu tümüyle uyumlu doğrulamayla devreye alındı',
-      en: 'Remote SIM activation rolled out with fully compliant verification',
-    },
+    tag: { tr: 'Telekomünikasyon', en: 'Telecom' },
+    title: { tr: 'Uzaktan SIM aktivasyonu, tamamen uyumlu doğrulama ile kullanıma sunuldu', en: 'Remote SIM activation rolled out with fully compliant verification' },
     metric: { tr: '%96 onay', en: '96% approval' },
   },
 ]
@@ -39,16 +30,16 @@ export function Resources() {
         <div className="grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-end">
           <Reveal>
             <p className="text-sm font-semibold uppercase tracking-widest text-brand">
-              {t({ tr: 'Örnek çalışmalar', en: 'Case studies' })}
+              {t({ tr: 'Vaka çalışmaları', en: 'Case studies' })}
             </p>
             <h2 className="mt-3 font-display text-3xl font-extrabold tracking-tight text-balance sm:text-4xl">
-              {t({ tr: 'Kurumların ölçebileceği sonuçlar', en: 'Outcomes institutions can measure' })}
+              {t({ tr: 'Kurumlar tarafından ölçülebilir sonuçlar', en: 'Outcomes institutions can measure' })}
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
             <p className="text-lg leading-relaxed text-muted-foreground text-pretty">
               {t({
-                tr: 'Yavaş ve manuel doğrulamayı SmartID platformuyla değiştiren ekiplerden gerçek sonuçlar.',
+                tr: 'Yavaş, manuel doğrulamayı SmartID platformu ile değiştiren takımlardan gerçek sonuçlar.',
                 en: 'Real results from teams that replaced slow, manual verification with the SmartID platform.',
               })}
             </p>
@@ -84,15 +75,12 @@ export function Resources() {
             <Quote className="h-8 w-8 text-brand-foreground/40" />
             <blockquote className="mt-4 max-w-3xl font-display text-xl font-bold leading-snug text-pretty sm:text-2xl">
               {t({
-                tr: '“Smartvist bize müşterilerimizin gerçekten keyifle kullandığı banka düzeyinde bir doğrulama sundu. Müşteri kazanımı, insanların kaydı yarıda bırakma nedeni olmaktan çıktı.”',
-                en: '“Smartvist gave us bank-grade verification our customers actually enjoy using. Onboarding stopped being the reason people abandoned sign-up.”',
+                tr: '"Smartvist bize, müşterilerimizin gerçekten kullanmaktan hoşlandığı banka düzeyinde doğrulama sağladı. Müşteri kazanımı artık insanların kaydolmaktan vazgeçmesinin nedeni olmaktan çıktı."',
+                en: '"Smartvist gave us bank-grade verification our customers actually enjoy using. Onboarding stopped being the reason people abandoned sign-up."',
               })}
             </blockquote>
             <figcaption className="mt-6 text-sm text-brand-foreground/70">
-              {t({
-                tr: 'Dijital Müşteri Kazanımı Direktörü · Düzenlemeye tabi finans kurumu',
-                en: 'Head of Digital Onboarding · Regulated financial institution',
-              })}
+              {t({ tr: 'Dijital Müşteri Kazanımı Müdürü · Düzenlemeye Tabi Finansal Kurum', en: 'Head of Digital Onboarding · Regulated financial institution' })}
             </figcaption>
           </figure>
         </Reveal>
