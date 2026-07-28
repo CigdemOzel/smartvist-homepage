@@ -1,66 +1,242 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
 import { Check, Nfc, ScanFace, ScanLine, Video, Mic, Circle, Activity } from 'lucide-react'
 
-/* ---------------- SDK: mobile flow ---------------- */
+/* ---------------- SDK: mobile flow with premium demo UI ---------------- */
 export function SdkScreen() {
   const reduce = useReducedMotion()
+  const [step, setStep] = useState(0)
+
   const steps = [
-    { icon: ScanLine, label: 'Document scan', done: true },
-    { icon: ScanFace, label: 'Face match', done: true },
-    { icon: Nfc, label: 'NFC chip read', done: false, active: true },
+    {
+      icon: ScanLine,
+      label: 'Document scan',
+      done: step > 0,
+      active: step === 0,
+    },
+    {
+      icon: ScanFace,
+      label: 'Face match',
+      done: step > 1,
+      active: step === 1,
+    },
+    {
+      icon: Check,
+      label: 'Liveness check',
+      done: step > 2,
+      active: step === 2,
+    },
   ]
+
+  // Auto-advance through steps
+  useEffect(() => {
+    const timers = [
+      setTimeout(() => setStep(1), 3000),
+      setTimeout(() => setStep(2), 5500),
+      setTimeout(() => setStep(0), 8500), // loop back
+    ]
+    return () => timers.forEach(clearTimeout)
+  }, [])
+
+  const renderStepContent = () => {
+    switch (step) {
+      case 0:
+        return (
+          <motion.div
+            initial={reduce ? undefined : { opacity: 0, y: 10 }}
+            animate={reduce ? undefined : { opacity: 1, y: 0 }}
+            className="space-y-3"
+          >
+            <div className="rounded-lg bg-white/5 p-3">
+              <p className="text-xs font-medium text-white/70">Document detection</p>
+              <div className="mt-2 flex items-center gap-2">
+                <div className="relative h-12 w-20 overflow-hidden rounded bg-white/10">
+                  <motion.div
+                    className="h-full w-full bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                    animate={reduce ? undefined : { x: ['-100%', '100%'] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  />
+                  <img
+                    src="/demo-id.png"
+                    alt="Demo ID"
+                    className="absolute inset-0 h-full w-full object-cover opacity-60"
+                  />
+                </div>
+                <div className="flex-1 text-xs text-white/70">
+                  <p className="font-medium">Identity Card Detected</p>
+                  <p className="text-white/50">EU Standard Format</p>
+                </div>
+              </div>
+            </div>
+            <p className="text-xs text-white/50">Scanning document details…</p>
+          </motion.div>
+        )
+      case 1:
+        return (
+          <motion.div
+            initial={reduce ? undefined : { opacity: 0, y: 10 }}
+            animate={reduce ? undefined : { opacity: 1, y: 0 }}
+            className="space-y-3"
+          >
+            <div className="rounded-lg bg-white/5 p-3">
+              <p className="text-xs font-medium text-white/70">Face authentication</p>
+              <div className="mt-2 flex items-center gap-2">
+                <div className="relative flex h-12 w-12 items-center justify-center rounded-lg bg-white/10">
+                  <img
+                    src="/demo-face.png"
+                    alt="Demo face"
+                    className="absolute inset-0 h-full w-full rounded-lg object-cover"
+                  />
+                  {!reduce && (
+                    <motion.div
+                      className="absolute inset-0 rounded-lg border-2 border-accent"
+                      animate={{ scale: [0.95, 1.05, 0.95] }}
+                      transition={{ duration: 1.2, repeat: Infinity }}
+                    />
+                  )}
+                </div>
+                <div className="flex-1 text-xs text-white/70">
+                  <p className="font-medium">Matching face</p>
+                  <motion.p
+                    className="text-white/50"
+                    animate={reduce ? undefined : { opacity: [0.5, 1] }}
+                    transition={{ duration: 0.8, repeat: Infinity }}
+                  >
+                    Confidence: 98.7%
+                  </motion.p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )
+      case 2:
+      default:
+        return (
+          <motion.div
+            initial={reduce ? undefined : { opacity: 0, y: 10 }}
+            animate={reduce ? undefined : { opacity: 1, y: 0 }}
+            className="space-y-3"
+          >
+            <div className="rounded-lg bg-gradient-to-br from-accent/20 to-accent/5 p-3">
+              <div className="flex items-center gap-2">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-accent text-brand-ink">
+                  <Check className="h-3.5 w-3.5" />
+                </span>
+                <span className="text-sm font-semibold text-accent">Verification complete</span>
+              </div>
+              <p className="mt-2 text-xs text-white/70">All security checks passed</p>
+            </div>
+          </motion.div>
+        )
+    }
+  }
+
   return (
-    <div className="mx-auto w-full max-w-[280px]">
-      <div className="rounded-[2rem] border border-border bg-card p-3 shadow-xl">
-        <div className="overflow-hidden rounded-[1.4rem] bg-brand-ink p-5">
-          <div className="flex items-center justify-between text-[11px] text-white/60">
-            <span>SmartID SDK</span>
-            <span>On-device</span>
+    <div className="mx-auto w-full max-w-sm">
+      <div className="overflow-hidden rounded-[2.5rem] border-8 border-foreground bg-foreground p-3 shadow-2xl">
+        {/* Phone frame */}
+        <div className="overflow-hidden rounded-[1.8rem] bg-gradient-to-b from-brand-ink to-brand-ink/95 p-4">
+          {/* Premium Status bar */}
+          <div className="flex items-center justify-between">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-1 text-[10px] font-medium text-white/80 backdrop-blur-sm">
+              <span className="h-1 w-1 rounded-full bg-accent" />
+              SmartID Secure
+            </span>
+            <span className="text-[10px] font-medium text-white/50">
+              {step === 2 ? '✓ Complete' : `${Math.round((step + 1) / 3 * 100)}%`}
+            </span>
           </div>
-          <div className="mt-4 rounded-xl bg-white/[0.06] p-4">
-            <p className="text-xs text-white/60">Verifying identity</p>
-            <p className="mt-1 font-display text-lg font-bold text-white">Almost there…</p>
-            <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
+
+          {/* Main content */}
+          <div className="mt-5 space-y-5">
+            {/* Header */}
+            <div>
+              <div className="flex items-center justify-between">
+                <h3 className="font-display text-base font-bold text-white">
+                  {steps[step].label}
+                </h3>
+                <span className="inline-flex items-center gap-1 rounded-full bg-brand/20 px-2 py-1 text-[10px] font-semibold text-brand">
+                  {step === 0 && '🔍'}
+                  {step === 1 && '👤'}
+                  {step === 2 && '✓'}
+                  <span>Step {step + 1}/3</span>
+                </span>
+              </div>
+            </div>
+
+            {/* Advanced progress bar */}
+            <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
               <motion.div
-                className="h-full rounded-full bg-accent"
-                initial={{ width: reduce ? '70%' : '10%' }}
-                whileInView={{ width: '70%' }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.2, ease: 'easeInOut' }}
+                className="h-full rounded-full bg-gradient-to-r from-accent via-brand to-accent shadow-lg"
+                animate={reduce ? undefined : { width: `${((step + 1) / 3) * 100}%` }}
+                transition={{ duration: 0.6, ease: 'easeOut' }}
               />
             </div>
-          </div>
-          <div className="mt-4 space-y-2">
-            {steps.map((s, i) => (
-              <motion.div
-                key={s.label}
-                initial={reduce ? undefined : { opacity: 0, x: -10 }}
-                whileInView={reduce ? undefined : { opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.15 * i }}
-                className={`flex items-center gap-3 rounded-lg px-3 py-2.5 ${
-                  s.active ? 'bg-brand/30 ring-1 ring-brand/50' : 'bg-white/[0.04]'
-                }`}
-              >
-                <span
-                  className={`flex h-7 w-7 items-center justify-center rounded-md ${
-                    s.done ? 'bg-accent text-brand-ink' : 'bg-brand text-white'
-                  }`}
+
+            {/* Step content */}
+            <div className="min-h-24">{renderStepContent()}</div>
+
+            {/* Advanced Step indicators */}
+            <div className="flex gap-2">
+              {steps.map((s, i) => (
+                <motion.div
+                  key={i}
+                  className="relative flex-1"
+                  animate={
+                    reduce
+                      ? undefined
+                      : i === step
+                        ? { scale: 1.05 }
+                        : { scale: 1 }
+                  }
                 >
-                  {s.done ? <Check className="h-4 w-4" /> : <s.icon className="h-4 w-4" />}
-                </span>
-                <span className="text-sm font-medium text-white">{s.label}</span>
-                {s.active && !reduce && (
-                  <motion.span
-                    className="ml-auto h-1.5 w-1.5 rounded-full bg-accent"
-                    animate={{ opacity: [1, 0.2, 1] }}
-                    transition={{ duration: 1.2, repeat: Infinity }}
-                  />
+                  <div className={`h-2 rounded-full transition-all ${
+                    i < step ? 'bg-accent' : i === step ? 'bg-brand' : 'bg-white/10'
+                  }`} />
+                  {i === step && !reduce && (
+                    <motion.div
+                      className="absolute inset-0 rounded-full bg-brand"
+                      animate={{ opacity: [0.3, 0.8, 0.3] }}
+                      transition={{ duration: 1.2, repeat: Infinity }}
+                    />
+                  )}
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Enhanced Footer */}
+            <div className="space-y-2 rounded-lg bg-white/5 px-3 py-2.5">
+              <p className="flex items-center gap-1.5 text-[11px] font-medium text-white/80">
+                {step === 2 ? (
+                  <>
+                    <span className="flex h-4 w-4 items-center justify-center rounded-full bg-accent text-brand-ink">
+                      <Check className="h-2.5 w-2.5" />
+                    </span>
+                    All security checks passed
+                  </>
+                ) : (
+                  <>
+                    <motion.span
+                      className="h-1.5 w-1.5 rounded-full bg-accent"
+                      animate={{ scale: [1, 1.3, 1] }}
+                      transition={{ duration: 1.2, repeat: Infinity }}
+                    />
+                    Verifying your identity
+                  </>
                 )}
-              </motion.div>
-            ))}
+              </p>
+              {step === 2 && (
+                <motion.p
+                  initial={reduce ? undefined : { opacity: 0, y: 4 }}
+                  animate={reduce ? undefined : { opacity: 1, y: 0 }}
+                  className="text-[10px] text-accent/80"
+                >
+                  Verification timestamp: {new Date().toLocaleTimeString()}
+                </motion.p>
+              )}
+            </div>
           </div>
         </div>
       </div>
