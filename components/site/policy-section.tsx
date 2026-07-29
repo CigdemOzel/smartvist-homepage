@@ -95,63 +95,68 @@ const policyItems: PolicyItem[] = [
 ]
 
 export function PolicySection() {
-  const [expanded, setExpanded] = useState<string | null>(null)
+  const [expanded, setExpanded] = useState<string | null>(policyItems[0].id)
   const t = useT()
 
   return (
-    <section className="relative py-20 sm:py-28">
-      <div className="mx-auto max-w-4xl px-4">
+    <section className="relative py-16 sm:py-24">
+      <div className="mx-auto max-w-3xl px-4 sm:px-6">
+        {/* Header */}
         <div className="mb-12 text-center">
           <h2 className="font-display text-3xl font-bold text-foreground sm:text-4xl">
             {t({
-              tr: 'Bilgi Güvenliği Yönetim Sistemi Politikası',
-              en: 'Information Security Management System Policy',
+              tr: 'Bilgi Güvenliği Politikası',
+              en: 'Security Policy',
             })}
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground">
+          <p className="mt-3 text-base text-muted-foreground sm:text-lg">
             {t({
-              tr: 'Bilgilerimizin korunmasına ve yönetimine büyük önem veriyoruz. Aşağıda detaylı politikamızı görebilirsiniz.',
-              en: 'We place great importance on protecting and managing our information. Explore our detailed policy below.',
+              tr: 'Bilgilerimizin korunmasına ve yönetimine büyük önem veriyoruz.',
+              en: 'We protect and manage your information with the highest standards.',
             })}
           </p>
         </div>
 
-        <div className="space-y-3">
+        {/* Accordion */}
+        <div className="space-y-2">
           {policyItems.map((item, index) => (
             <motion.div
               key={item.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05, duration: 0.4 }}
-              viewport={{ once: true, margin: '-100px' }}
+              transition={{ delay: index * 0.03, duration: 0.3 }}
+              viewport={{ once: true, margin: '-50px' }}
+              className="overflow-hidden rounded-lg border border-border transition-all duration-300"
             >
               <button
                 onClick={() => setExpanded(expanded === item.id ? null : item.id)}
-                className="group w-full"
+                className="group relative w-full"
               >
-                <div className="relative overflow-hidden rounded-xl border border-border bg-background/50 p-5 transition-all duration-300 hover:border-brand/30 hover:bg-background/80 hover:shadow-lg">
-                  {/* Animated background gradient on hover */}
-                  <motion.div
-                    className="pointer-events-none absolute inset-0 bg-gradient-to-r from-brand/5 via-accent/5 to-transparent opacity-0 transition-opacity"
-                    animate={{ opacity: expanded === item.id ? 1 : 0 }}
-                    transition={{ duration: 0.3 }}
-                  />
+                {/* Background layers for hover effect */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-brand/3 via-transparent to-transparent"
+                  animate={{ opacity: expanded === item.id ? 1 : 0 }}
+                  transition={{ duration: 0.25 }}
+                  pointer-events="none"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-brand/2 via-accent/2 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
-                  <div className="relative flex items-center justify-between">
-                    <h3 className="text-left font-display text-base font-semibold text-foreground sm:text-lg">
-                      {t(item.title)}
-                    </h3>
-                    <motion.div
-                      animate={{ rotate: expanded === item.id ? 180 : 0 }}
-                      transition={{ duration: 0.3, ease: 'easeOut' }}
-                      className="shrink-0"
-                    >
-                      <ChevronDown className="h-5 w-5 text-muted-foreground transition-colors group-hover:text-brand" />
-                    </motion.div>
-                  </div>
+                {/* Content */}
+                <div className="relative flex items-center justify-between bg-card px-5 py-4 sm:px-6 sm:py-4 transition-colors duration-200 group-hover:bg-card/80">
+                  <h3 className="text-left font-display text-base font-semibold text-foreground sm:text-lg">
+                    {t(item.title)}
+                  </h3>
+                  <motion.div
+                    animate={{ rotate: expanded === item.id ? 180 : 0 }}
+                    transition={{ duration: 0.35, ease: 'easeInOut' }}
+                    className="ml-3 shrink-0"
+                  >
+                    <ChevronDown className="h-5 w-5 text-muted-foreground transition-colors duration-200 group-hover:text-brand" />
+                  </motion.div>
                 </div>
               </button>
 
+              {/* Expanded content */}
               <AnimatePresence>
                 {expanded === item.id && (
                   <motion.div
@@ -159,19 +164,19 @@ export function PolicySection() {
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
                     transition={{ duration: 0.3, ease: 'easeOut' }}
-                    className="overflow-hidden"
+                    className="overflow-hidden border-t border-border bg-background/50"
                   >
-                    <div className="border border-t-0 border-border bg-brand-soft/10 p-5 text-foreground sm:p-6">
-                      <ul className="space-y-3">
+                    <div className="px-5 py-4 sm:px-6 sm:py-5">
+                      <ul className="space-y-2.5">
                         {t(item.content).map((line: string, idx: number) => (
                           <motion.li
                             key={idx}
-                            initial={{ opacity: 0, x: -10 }}
+                            initial={{ opacity: 0, x: -8 }}
                             animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: idx * 0.05, duration: 0.3 }}
-                            className="flex gap-3 text-sm leading-relaxed"
+                            transition={{ delay: idx * 0.06, duration: 0.25 }}
+                            className="flex gap-3 text-sm leading-relaxed text-foreground/90"
                           >
-                            <span className="mt-1.5 flex h-2 w-2 shrink-0 rounded-full bg-brand" />
+                            <span className="mt-1.5 flex h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
                             <span>{line}</span>
                           </motion.li>
                         ))}
@@ -184,20 +189,22 @@ export function PolicySection() {
           ))}
         </div>
 
+        {/* Download card */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
-          viewport={{ once: true, margin: '-100px' }}
-          className="mt-10 rounded-xl border border-brand/20 bg-brand-soft/20 p-5 backdrop-blur-sm sm:p-6"
+          transition={{ delay: 0.2, duration: 0.4 }}
+          viewport={{ once: true, margin: '-50px' }}
+          className="mt-8 rounded-lg border border-brand/15 bg-brand-soft/30 p-4 sm:p-5 backdrop-blur-sm transition-all duration-300 hover:border-brand/25 hover:bg-brand-soft/40 hover:shadow-sm"
         >
-          <p className="text-sm text-muted-foreground">
+          <p className="flex items-center gap-2 text-sm text-foreground/85 sm:text-base">
+            <span className="text-lg">📋</span>
             {t({
-              tr: '📋 Tam politika belgesi',
-              en: '📋 Complete policy document',
+              tr: 'Tam politika belgesi',
+              en: 'Complete policy document',
             })}{' '}
-            <a href="#" className="font-semibold text-brand hover:text-brand/80 transition-colors">
-              {t({ tr: 'burada indirebilirsiniz', en: 'can be downloaded here' })}
+            <a href="#" className="font-semibold text-brand hover:text-brand/80 transition-colors duration-200 underline decoration-brand/30 hover:decoration-brand/60">
+              {t({ tr: 'burada indirebilirsiniz', en: 'available for download' })}
             </a>
           </p>
         </motion.div>
