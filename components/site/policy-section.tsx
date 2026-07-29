@@ -95,7 +95,8 @@ const policyItems: PolicyItem[] = [
 ]
 
 export function PolicySection() {
-  const [expanded, setExpanded] = useState<string | null>(policyItems[0].id)
+  const [mainExpanded, setMainExpanded] = useState<boolean>(false)
+  const [expandedSection, setExpandedSection] = useState<string | null>(null)
   const t = useT()
 
   return (
@@ -117,77 +118,128 @@ export function PolicySection() {
           </p>
         </div>
 
-        {/* Accordion */}
-        <div className="space-y-2">
-          {policyItems.map((item, index) => (
+        {/* Level 1 Accordion - Main Policy */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          viewport={{ once: true, margin: '-50px' }}
+          className="overflow-hidden rounded-lg border border-border transition-all duration-300"
+        >
+          <button
+            onClick={() => setMainExpanded(!mainExpanded)}
+            className="group relative w-full"
+          >
+            {/* Background layers for hover effect */}
             <motion.div
-              key={item.id}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.03, duration: 0.3 }}
-              viewport={{ once: true, margin: '-50px' }}
-              className="overflow-hidden rounded-lg border border-border transition-all duration-300"
-            >
-              <button
-                onClick={() => setExpanded(expanded === item.id ? null : item.id)}
-                className="group relative w-full"
+              className="absolute inset-0 bg-gradient-to-r from-brand/3 via-transparent to-transparent"
+              animate={{ opacity: mainExpanded ? 1 : 0 }}
+              transition={{ duration: 0.25 }}
+              pointer-events="none"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-brand/2 via-accent/2 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+            {/* Content */}
+            <div className="relative flex items-center justify-between bg-card px-5 py-4 sm:px-6 sm:py-4 transition-colors duration-200 group-hover:bg-card/80">
+              <h3 className="text-left font-display text-base font-semibold text-foreground sm:text-lg">
+                {t({
+                  tr: 'Bilgi Güvenliği Politikası',
+                  en: 'Information Security Policy',
+                })}
+              </h3>
+              <motion.div
+                animate={{ rotate: mainExpanded ? 180 : 0 }}
+                transition={{ duration: 0.35, ease: 'easeInOut' }}
+                className="ml-3 shrink-0"
               >
-                {/* Background layers for hover effect */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-brand/3 via-transparent to-transparent"
-                  animate={{ opacity: expanded === item.id ? 1 : 0 }}
-                  transition={{ duration: 0.25 }}
-                  pointer-events="none"
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-brand/2 via-accent/2 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                <ChevronDown className="h-5 w-5 text-muted-foreground transition-colors duration-200 group-hover:text-brand" />
+              </motion.div>
+            </div>
+          </button>
 
-                {/* Content */}
-                <div className="relative flex items-center justify-between bg-card px-5 py-4 sm:px-6 sm:py-4 transition-colors duration-200 group-hover:bg-card/80">
-                  <h3 className="text-left font-display text-base font-semibold text-foreground sm:text-lg">
-                    {t(item.title)}
-                  </h3>
-                  <motion.div
-                    animate={{ rotate: expanded === item.id ? 180 : 0 }}
-                    transition={{ duration: 0.35, ease: 'easeInOut' }}
-                    className="ml-3 shrink-0"
-                  >
-                    <ChevronDown className="h-5 w-5 text-muted-foreground transition-colors duration-200 group-hover:text-brand" />
-                  </motion.div>
-                </div>
-              </button>
+          {/* Level 2 Accordions - Policy Sections */}
+          <AnimatePresence>
+            {mainExpanded && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+                className="overflow-hidden border-t border-border bg-background/50"
+              >
+                <div className="space-y-2 px-5 py-4 sm:px-6 sm:py-5">
+                  {policyItems.map((item, index) => (
+                    <motion.div
+                      key={item.id}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.05, duration: 0.25 }}
+                      className="overflow-hidden rounded-lg border border-border/50 transition-all duration-300"
+                    >
+                      <button
+                        onClick={() => setExpandedSection(expandedSection === item.id ? null : item.id)}
+                        className="group relative w-full"
+                      >
+                        {/* Background layers for hover effect */}
+                        <motion.div
+                          className="absolute inset-0 bg-gradient-to-r from-brand/2 via-transparent to-transparent"
+                          animate={{ opacity: expandedSection === item.id ? 1 : 0 }}
+                          transition={{ duration: 0.25 }}
+                          pointer-events="none"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-r from-brand/1.5 via-accent/1.5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
-              {/* Expanded content */}
-              <AnimatePresence>
-                {expanded === item.id && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.3, ease: 'easeOut' }}
-                    className="overflow-hidden border-t border-border bg-background/50"
-                  >
-                    <div className="px-5 py-4 sm:px-6 sm:py-5">
-                      <ul className="space-y-2.5">
-                        {t(item.content).map((line: string, idx: number) => (
-                          <motion.li
-                            key={idx}
-                            initial={{ opacity: 0, x: -8 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: idx * 0.06, duration: 0.25 }}
-                            className="flex gap-3 text-sm leading-relaxed text-foreground/90"
+                        {/* Content */}
+                        <div className="relative flex items-center justify-between bg-card/50 px-4 py-3 sm:px-5 sm:py-3 transition-colors duration-200 group-hover:bg-card/70">
+                          <h4 className="text-left font-display text-sm font-medium text-foreground sm:text-base">
+                            {t(item.title)}
+                          </h4>
+                          <motion.div
+                            animate={{ rotate: expandedSection === item.id ? 180 : 0 }}
+                            transition={{ duration: 0.35, ease: 'easeInOut' }}
+                            className="ml-3 shrink-0"
                           >
-                            <span className="mt-1.5 flex h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
-                            <span>{line}</span>
-                          </motion.li>
-                        ))}
-                      </ul>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          ))}
-        </div>
+                            <ChevronDown className="h-4 w-4 text-muted-foreground/70 transition-colors duration-200 group-hover:text-brand" />
+                          </motion.div>
+                        </div>
+                      </button>
+
+                      {/* Level 3 Content - Section Details */}
+                      <AnimatePresence>
+                        {expandedSection === item.id && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.25, ease: 'easeOut' }}
+                            className="overflow-hidden border-t border-border/30 bg-background/30"
+                          >
+                            <div className="px-4 py-3 sm:px-5 sm:py-4">
+                              <ul className="space-y-2">
+                                {t(item.content).map((line: string, idx: number) => (
+                                  <motion.li
+                                    key={idx}
+                                    initial={{ opacity: 0, x: -6 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: idx * 0.05, duration: 0.2 }}
+                                    className="flex gap-2.5 text-xs leading-relaxed text-foreground/80 sm:text-sm sm:leading-relaxed"
+                                  >
+                                    <span className="mt-1.5 flex h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
+                                    <span>{line}</span>
+                                  </motion.li>
+                                ))}
+                              </ul>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
 
         {/* Download card */}
         <motion.div
