@@ -1,16 +1,39 @@
 'use client'
 
-import { motion, useReducedMotion } from 'motion/react'
+import { useState, useEffect } from 'react'
+import { motion, useReducedMotion, AnimatePresence } from 'motion/react'
 import { Check, Nfc, ScanFace, ScanLine, Video, Mic, Circle, Activity } from 'lucide-react'
 
 /* ---------------- SDK: mobile flow ---------------- */
 export function SdkScreen() {
+  const [currentStep, setCurrentStep] = useState(0)
   const reduce = useReducedMotion()
+
+  // Auto-advance through steps
+  useEffect(() => {
+    const timers = [
+      setTimeout(() => setCurrentStep(1), 3000),
+      setTimeout(() => setCurrentStep(2), 6500),
+      setTimeout(() => setCurrentStep(3), 10000),
+      setTimeout(() => setCurrentStep(0), 12500), // loop back
+    ]
+    return () => timers.forEach(clearTimeout)
+  }, [])
+
   const steps = [
-    { icon: ScanLine, label: 'Document scan', done: true },
-    { icon: ScanFace, label: 'Face match', done: true },
-    { icon: Nfc, label: 'NFC chip read', done: false, active: true },
+    { icon: ScanLine, label: 'Belge taranıyor', labelEn: 'Document scan', done: false, active: true, preview: '/verification-step-1-scan.png' },
+    { icon: Nfc, label: 'NFC çipi okunuyor', labelEn: 'NFC chip read', done: false, active: false, preview: '/verification-step-2-nfc.png' },
+    { icon: ScanFace, label: 'Canlılık kontrolü', labelEn: 'Liveness check', done: false, active: false, preview: '/verification-step-3-liveness.png' },
+    { icon: Check, label: 'Kimlik doğrulandı', labelEn: 'Verified', done: true, active: false },
   ]
+
+  const displayLabel = (step: typeof steps[0]) => {
+    // Display Turkish label, fallback to English
+    return step.label || step.labelEn
+  }
+
+  const isVerified = currentStep === 3
+
   return (
     <div className="mx-auto w-full max-w-[280px]">
       <div className="rounded-[2rem] border border-border bg-card p-3 shadow-xl">
@@ -19,48 +42,101 @@ export function SdkScreen() {
             <span>SmartID SDK</span>
             <span>On-device</span>
           </div>
+
+          {/* Preview Area - Shows step-specific content */}
+          <div className="mt-4 overflow-hidden rounded-xl bg-black">
+            <AnimatePresence mode="crossFade">
+              {!isVerified ? (
+                <motion.div
+                  key={`preview-${currentStep}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                  className="relative h-48 w-full bg-black"
+                >
+                  <img
+                    src={steps[currentStep].preview}
+                    alt={displayLabel(steps[currentStep])}
+                    className="h-full w-full object-cover object-center"
+                  />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="verified"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                  className="flex h-48 w-full items-center justify-center bg-gradient-to-br from-brand to-brand-ink/50"
+                >
+                  <div className="flex flex-col items-center gap-3">
+                    <motion.div
+                      initial={reduce ? undefined : { scale: 0 }}
+                      animate={reduce ? undefined : { scale: 1 }}
+                      transition={{ duration: 0.5, ease: 'easeOut' }}
+                      className="flex h-12 w-12 items-center justify-center rounded-full bg-accent text-brand-ink"
+                    >
+                      <Check className="h-6 w-6" />
+                    </motion.div>
+                    <p className="text-center text-sm font-semibold text-white">Identity verified</p>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Status Text */}
           <div className="mt-4 rounded-xl bg-white/[0.06] p-4">
-            <p className="text-xs text-white/60">Verifying identity</p>
-            <p className="mt-1 font-display text-lg font-bold text-white">Almost there…</p>
+            <p className="text-xs text-white/60">
+              {isVerified ? 'Verification complete' : 'Verifying identity'}
+            </p>
+            <p className="mt-1 font-display text-lg font-bold text-white">
+              {isVerified ? 'Approved' : 'Almost there…'}
+            </p>
             <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
               <motion.div
                 className="h-full rounded-full bg-accent"
-                initial={{ width: reduce ? '70%' : '10%' }}
-                whileInView={{ width: '70%' }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.2, ease: 'easeInOut' }}
+                animate={{ width: `${((currentStep + 1) / 4) * 100}%` }}
+                transition={{ duration: 0.6, ease: 'easeOut' }}
               />
             </div>
           </div>
+
+          {/* Steps Indicators */}
           <div className="mt-4 space-y-2">
-            {steps.map((s, i) => (
-              <motion.div
-                key={s.label}
-                initial={reduce ? undefined : { opacity: 0, x: -10 }}
-                whileInView={reduce ? undefined : { opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.15 * i }}
-                className={`flex items-center gap-3 rounded-lg px-3 py-2.5 ${
-                  s.active ? 'bg-brand/30 ring-1 ring-brand/50' : 'bg-white/[0.04]'
-                }`}
-              >
-                <span
-                  className={`flex h-7 w-7 items-center justify-center rounded-md ${
-                    s.done ? 'bg-accent text-brand-ink' : 'bg-brand text-white'
+            {steps.map((s, i) => {
+              const isDone = i < currentStep
+              const isActive = i === currentStep
+              return (
+                <motion.div
+                  key={s.label}
+                  initial={reduce ? undefined : { opacity: 0, x: -10 }}
+                  whileInView={reduce ? undefined : { opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.15 * i }}
+                  className={`flex items-center gap-3 rounded-lg px-3 py-2.5 ${
+                    isActive ? 'bg-brand/30 ring-1 ring-brand/50' : 'bg-white/[0.04]'
                   }`}
                 >
-                  {s.done ? <Check className="h-4 w-4" /> : <s.icon className="h-4 w-4" />}
-                </span>
-                <span className="text-sm font-medium text-white">{s.label}</span>
-                {s.active && !reduce && (
-                  <motion.span
-                    className="ml-auto h-1.5 w-1.5 rounded-full bg-accent"
-                    animate={{ opacity: [1, 0.2, 1] }}
-                    transition={{ duration: 1.2, repeat: Infinity }}
-                  />
-                )}
-              </motion.div>
-            ))}
+                  <span
+                    className={`flex h-7 w-7 items-center justify-center rounded-md ${
+                      isDone || (isActive && isVerified) ? 'bg-accent text-brand-ink' : 'bg-brand text-white'
+                    }`}
+                  >
+                    {isDone || (isActive && isVerified) ? <Check className="h-4 w-4" /> : <s.icon className="h-4 w-4" />}
+                  </span>
+                  <span className="text-sm font-medium text-white">{displayLabel(s)}</span>
+                  {isActive && !isVerified && !reduce && (
+                    <motion.span
+                      className="ml-auto h-1.5 w-1.5 rounded-full bg-accent"
+                      animate={{ opacity: [1, 0.2, 1] }}
+                      transition={{ duration: 1.2, repeat: Infinity }}
+                    />
+                  )}
+                </motion.div>
+              )
+            })}
           </div>
         </div>
       </div>
