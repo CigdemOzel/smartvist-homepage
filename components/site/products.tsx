@@ -23,7 +23,7 @@ export function Products() {
 
   return (
     <section id="products" className="relative py-20 sm:py-28">
-      <div className="mx-auto max-w-6xl px-4">
+      <div className="mx-auto max-w-7xl px-4">
         <Reveal className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-semibold uppercase tracking-widest text-brand">
             {t({ tr: 'Ürünler', en: 'Products' })}
@@ -39,8 +39,17 @@ export function Products() {
           </p>
         </Reveal>
 
+        {/* SmartID Platform Dashboard Hero */}
+        <Reveal delay={0.1} className="mt-16 overflow-hidden rounded-3xl border border-border bg-gradient-to-b from-card/80 to-background/50 p-8 sm:p-12">
+          <img
+            src="/smartid-platform-dashboard.png"
+            alt="SmartID Platform Dashboard"
+            className="w-full h-auto rounded-xl"
+          />
+        </Reveal>
+
         {/* tabs */}
-        <div className="mt-10 flex flex-wrap justify-center gap-2">
+        <div className="mt-14 flex flex-wrap justify-center gap-2">
           {products.map((p, i) => (
             <button
               key={p.id}
