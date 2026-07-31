@@ -9,7 +9,7 @@ export function Technologies() {
   const t = useT()
   return (
     <section id="technology" className="relative border-t border-border bg-muted/30 py-20 sm:py-28">
-      <div className="mx-auto max-w-6xl px-4">
+      <div className="mx-auto max-w-7xl px-4">
         <Reveal className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-semibold uppercase tracking-widest text-brand">
             {t({ tr: 'Teknoloji', en: 'Technology' })}
@@ -25,6 +25,16 @@ export function Technologies() {
           </p>
         </Reveal>
 
+        {/* Verification Pipeline Visualization */}
+        <Reveal className="mt-16 overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-card/80 to-background/50 p-8 sm:p-12">
+          <img
+            src="/verification-pipeline.png"
+            alt="Verification Pipeline Flow"
+            className="w-full h-auto"
+          />
+        </Reveal>
+
+        {/* Technology Details Grid */}
         <Stagger className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {technologies.map((tech) => (
             <StaggerItem
