@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
-import { ScanLine, ScanFace, Nfc, ShieldCheck, Check } from 'lucide-react'
+import { ScanLine, ScanFace, Nfc, ShieldCheck } from 'lucide-react'
 
 const stages = [
   { id: 'scan', label: 'Scanning document', icon: ScanLine },
@@ -10,8 +10,6 @@ const stages = [
   { id: 'nfc', label: 'Reading NFC chip', icon: Nfc },
   { id: 'done', label: 'Identity verified', icon: ShieldCheck },
 ] as const
-
-const checklist = ['Document authentic', 'Face match 99.2%', 'Liveness passed', 'NFC chip valid']
 
 export function HeroVisual() {
   const reduce = useReducedMotion()
@@ -31,25 +29,40 @@ export function HeroVisual() {
 
   return (
     <div className="relative mx-auto w-full max-w-sm">
-      {/* Ambient rings */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center">
-        <div className="h-[112%] w-[112%] rounded-[2.5rem] bg-brand-soft/60 blur-2xl" />
+      {/* Animated gradient background */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
+        <motion.div
+          className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-brand/40 via-accent/20 to-brand-soft/30 blur-3xl"
+          animate={
+            reduce
+              ? undefined
+              : {
+                  backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
+                  opacity: [0.5, 0.8, 0.5],
+                }
+          }
+          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+        />
       </div>
 
-      {/* Phone */}
+      {/* Phone Frame */}
       <motion.div
-        initial={reduce ? undefined : { opacity: 0, y: 30, rotateX: 8 }}
+        initial={reduce ? undefined : { opacity: 0, y: 40, rotateX: 12 }}
         animate={reduce ? undefined : { opacity: 1, y: 0, rotateX: 0 }}
-        transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-        className="relative rounded-[2.25rem] border border-border bg-card p-3 shadow-2xl shadow-brand/10"
+        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+        className="relative rounded-[2.25rem] border border-border/50 bg-card p-3 shadow-2xl shadow-brand/15"
       >
         <div className="relative overflow-hidden rounded-[1.65rem] bg-brand-ink">
-          {/* status bar */}
-          <div className="flex items-center justify-between px-5 pt-4 text-[11px] font-medium text-white/70">
+          {/* Status bar */}
+          <div className="flex items-center justify-between px-5 pt-4 text-[11px] font-medium text-white/60">
             <span>SmartID</span>
-            <span className="flex items-center gap-1">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-              Secure session
+            <span className="flex items-center gap-1.5">
+              <motion.span
+                className="h-2 w-2 rounded-full bg-accent"
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+              Verifying
             </span>
           </div>
 
@@ -69,11 +82,11 @@ export function HeroVisual() {
             </div>
             <div className="absolute bottom-3 right-3 h-8 w-8 rounded-md border border-brand/30 bg-brand/10" />
 
-            {/* scanning laser */}
+            {/* Scanning laser */}
             {!reduce && !done && (
               <motion.div
                 aria-hidden="true"
-                className="absolute inset-x-0 h-10 bg-gradient-to-b from-transparent via-accent/40 to-transparent"
+                className="absolute inset-x-0 h-10 bg-gradient-to-b from-transparent via-accent/50 to-transparent"
                 initial={{ top: '-10%' }}
                 animate={{ top: ['-10%', '100%'] }}
                 transition={{ duration: 1.6, repeat: Infinity, ease: 'linear' }}
@@ -81,8 +94,8 @@ export function HeroVisual() {
             )}
           </div>
 
-          {/* live status */}
-          <div className="mx-4 mb-4 rounded-xl bg-white/10 p-4 backdrop-blur">
+          {/* Live status */}
+          <div className="mx-4 mb-4 rounded-xl bg-white/5 backdrop-blur">
             <AnimatePresence mode="wait">
               <motion.div
                 key={active.id}
@@ -90,18 +103,18 @@ export function HeroVisual() {
                 animate={reduce ? undefined : { opacity: 1, y: 0 }}
                 exit={reduce ? undefined : { opacity: 0, y: -8 }}
                 transition={{ duration: 0.35 }}
-                className="flex items-center gap-3"
+                className="flex items-center gap-3 p-4"
               >
                 <span
-                  className={`flex h-9 w-9 items-center justify-center rounded-lg ${
-                    done ? 'bg-accent text-brand-ink' : 'bg-brand text-white'
+                  className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${
+                    done ? 'bg-accent text-brand-ink' : 'bg-brand/90 text-white'
                   }`}
                 >
                   <active.icon className="h-5 w-5" />
                 </span>
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-white">{active.label}</p>
-                  <div className="mt-1.5 h-1 w-full overflow-hidden rounded-full bg-white/15">
+                  <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-white/10">
                     <motion.div
                       key={`${active.id}-bar`}
                       className={`h-full rounded-full ${done ? 'bg-accent' : 'bg-brand-foreground'}`}
@@ -117,44 +130,19 @@ export function HeroVisual() {
         </div>
       </motion.div>
 
-      {/* floating verified checklist */}
+      {/* Floating accent orbs */}
       <motion.div
-        initial={reduce ? undefined : { opacity: 0, x: 24, y: 10 }}
-        animate={reduce ? undefined : { opacity: 1, x: 0, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.4 }}
-        className="absolute -right-4 bottom-8 w-52 rounded-2xl border border-border bg-background/95 p-4 shadow-xl backdrop-blur sm:-right-10"
-      >
-        <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Checks</p>
-        <ul className="space-y-2">
-          {checklist.map((item, i) => (
-            <motion.li
-              key={item}
-              initial={reduce ? undefined : { opacity: 0 }}
-              animate={reduce ? undefined : { opacity: 1 }}
-              transition={{ delay: 0.7 + i * 0.15 }}
-              className="flex items-center gap-2 text-xs font-medium text-foreground"
-            >
-              <span className="flex h-4 w-4 items-center justify-center rounded-full bg-brand/12 text-brand">
-                <Check className="h-3 w-3" />
-              </span>
-              {item}
-            </motion.li>
-          ))}
-        </ul>
-      </motion.div>
-
-      {/* floating decision badge */}
+        aria-hidden="true"
+        className="absolute -top-8 -right-8 h-32 w-32 rounded-full bg-accent/10 blur-3xl"
+        animate={reduce ? undefined : { y: [0, 20, 0] }}
+        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+      />
       <motion.div
-        initial={reduce ? undefined : { opacity: 0, x: -24, y: -10 }}
-        animate={reduce ? undefined : { opacity: 1, x: 0, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.55 }}
-        className="absolute -left-4 top-10 flex items-center gap-2 rounded-full border border-border bg-background/95 py-2 pl-2 pr-3 shadow-xl backdrop-blur sm:-left-8"
-      >
-        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-accent text-brand-ink">
-          <ShieldCheck className="h-4 w-4" />
-        </span>
-        <span className="text-xs font-semibold text-foreground">Approved · 4.2s</span>
-      </motion.div>
+        aria-hidden="true"
+        className="absolute -bottom-12 -left-8 h-40 w-40 rounded-full bg-brand/5 blur-3xl"
+        animate={reduce ? undefined : { y: [0, -15, 0] }}
+        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+      />
     </div>
   )
 }
